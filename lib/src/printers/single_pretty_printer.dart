@@ -12,8 +12,8 @@ class SinglePrettyPrinter extends LogPrinter {
     this.loggerName,
     this.colors = true,
     this.printCaller = true,
-    this.printEmoji = true,
-    this.printLevel = true,
+    this.printEmojis = true,
+    this.printLabels = true,
     this.printTime = true,
     this.stackTraceLevel = Level.nothing,
     this.stackTraceMethodCount = 20,
@@ -34,10 +34,10 @@ class SinglePrettyPrinter extends LogPrinter {
   final bool printCaller;
 
   /// If set to true, the emoji will be output to the log.
-  final bool printEmoji;
+  final bool printEmojis;
 
   /// If set to true, the log level string will be output to the log.
-  final bool printLevel;
+  final bool printLabels;
 
   /// If set to true, the time stamp will be output to the log.
   final bool printTime;
@@ -279,13 +279,13 @@ class SinglePrettyPrinter extends LogPrinter {
   }) {
     final buffer = <String>[];
 
-    if (printEmoji) {
+    if (printEmojis) {
       buffer.add(levelEmojis[level]!);
     }
     if (loggerName != null) {
       buffer.add(loggerName!);
     }
-    if (printLevel) {
+    if (printLabels) {
       buffer.add(levelLabels[level]!);
     }
     if (printTime) {
