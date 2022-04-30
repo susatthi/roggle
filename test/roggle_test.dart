@@ -56,13 +56,15 @@ void main() {
     printedStackTrace = null;
   });
 
-  test('Roggle.log', () {
-    var logger = Roggle(filter: _NeverFilter(), printer: callbackPrinter)
-      ..log(Level.debug, 'Some message');
+  test('Constructor', () {
+    Roggle(filter: _NeverFilter(), printer: callbackPrinter)
+        .log(Level.debug, 'Some message');
 
     expect(printedMessage, null);
+  });
 
-    logger = Roggle(filter: _AlwaysFilter(), printer: callbackPrinter);
+  test('Roggle.log', () {
+    final logger = Roggle(filter: _AlwaysFilter(), printer: callbackPrinter);
 
     final levels = Level.values.take(6);
     for (final level in levels) {
@@ -94,6 +96,13 @@ void main() {
       throwsArgumentError,
     );
     expect(() => logger.log(Level.nothing, 'Test'), throwsArgumentError);
+
+    logger.close();
+    expect(() => logger.log(Level.verbose, 'Test'), throwsArgumentError);
+
+    // Execute close() twice
+    logger.close();
+    expect(() => logger.log(Level.verbose, 'Test'), throwsArgumentError);
   });
 
   test('Roggle.v', () {

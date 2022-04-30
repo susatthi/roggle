@@ -42,37 +42,37 @@ class Roggle {
   bool get active => _active;
 
   /// Log a message at level [Level.verbose].
-  List<String> v(Object message, [Object? error, StackTrace? stackTrace]) {
-    return log(Level.verbose, message, error, stackTrace);
+  void v(Object message, [Object? error, StackTrace? stackTrace]) {
+    log(Level.verbose, message, error, stackTrace);
   }
 
   /// Log a message at level [Level.debug].
-  List<String> d(Object message, [Object? error, StackTrace? stackTrace]) {
-    return log(Level.debug, message, error, stackTrace);
+  void d(Object message, [Object? error, StackTrace? stackTrace]) {
+    log(Level.debug, message, error, stackTrace);
   }
 
   /// Log a message at level [Level.info].
-  List<String> i(Object message, [Object? error, StackTrace? stackTrace]) {
-    return log(Level.info, message, error, stackTrace);
+  void i(Object message, [Object? error, StackTrace? stackTrace]) {
+    log(Level.info, message, error, stackTrace);
   }
 
   /// Log a message at level [Level.warning].
-  List<String> w(Object message, [Object? error, StackTrace? stackTrace]) {
-    return log(Level.warning, message, error, stackTrace);
+  void w(Object message, [Object? error, StackTrace? stackTrace]) {
+    log(Level.warning, message, error, stackTrace);
   }
 
   /// Log a message at level [Level.error].
-  List<String> e(Object message, [Object? error, StackTrace? stackTrace]) {
-    return log(Level.error, message, error, stackTrace);
+  void e(Object message, [Object? error, StackTrace? stackTrace]) {
+    log(Level.error, message, error, stackTrace);
   }
 
   /// Log a message at level [Level.wtf].
-  List<String> wtf(Object message, [Object? error, StackTrace? stackTrace]) {
-    return log(Level.wtf, message, error, stackTrace);
+  void wtf(Object message, [Object? error, StackTrace? stackTrace]) {
+    log(Level.wtf, message, error, stackTrace);
   }
 
   /// Log a message with [level].
-  List<String> log(
+  void log(
     Level level,
     Object message, [
     Object? error,
@@ -85,10 +85,9 @@ class Roggle {
     } else if (level == Level.nothing) {
       throw ArgumentError('Log events cannot have Level.nothing');
     }
-    var output = <String>[];
     final logEvent = LogEvent(level, message, error, stackTrace);
     if (_filter.shouldLog(logEvent)) {
-      output = _printer.log(logEvent);
+      final output = _printer.log(logEvent);
 
       if (output.isNotEmpty) {
         final outputEvent = OutputEvent(level, output);
@@ -97,11 +96,14 @@ class Roggle {
         _output.output(outputEvent);
       }
     }
-    return output;
   }
 
   /// Closes the logger and releases all resources.
   void close() {
+    if (!_active) {
+      return;
+    }
+
     _active = false;
     _filter.destroy();
     _printer.destroy();
