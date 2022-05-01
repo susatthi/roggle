@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     container:
-      image: google/dart:2.15
+      image: google/dart:2.16
     steps:
       - name: Checkout
         uses: actions/checkout@v3
