@@ -4,8 +4,8 @@
 <a href="https://codecov.io/gh/susatthi/roggle"><img src="https://codecov.io/gh/susatthi/roggle/branch/main/graph/badge.svg?token=32O6RLP872" alt="codecov"></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-purple" alt="MIT"></a>
 
-Simple, colorful and easy to expand logger for dart.<br>
-Inspired by [logger](https://pub.dev/packages/logger).
+Simple, colorful and easy to expand [logger](https://pub.dev/packages/logger) for dart.<br>
+Inspired by logger and dependent to logger.
 
 ## Getting Started
 
@@ -40,8 +40,15 @@ final logger = Roggle(
     printEmojis: true, // Print an emoji for each log message
     printLabels: true, // Print a level string for each log message
     printTime: true, // Print a timestamp for each log message
-    stackTraceLevel: Level.error, // The current logging level to display stack trace
+    stackTraceLevel:
+        Level.error, // The current logging level to display stack trace
     stackTraceMethodCount: 10, // Number of stack trace methods to display
+    stackTracePrefix: '>>>', // Replace stack trace prefix
+    levelColors: {}, // Replace level colors map
+    levelEmojis: {}, // Replace level emojis map
+    levelLabels: {}, // Replace level labels map
+    timeFormatter: (now) => DateFormat('yyyy/MM/dd HH:mm:ss.SSS')
+        .format(now), // Replace time formatter
   ),
 );
 ```
