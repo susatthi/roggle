@@ -1,4 +1,5 @@
 import 'package:logger/logger.dart';
+import 'package:meta/meta.dart';
 import 'package:stack_trace/stack_trace.dart';
 
 /// Default implementation of [LogPrinter].
@@ -17,12 +18,11 @@ class SinglePrettyPrinter extends LogPrinter {
     this.printTime = true,
     this.stackTraceLevel = Level.nothing,
     this.stackTraceMethodCount = 20,
-    this.stackTraceFilters = const [],
-    this.stackTracePrefix = _defaultStackTracePrefix,
+    this.stackTracePrefix = defaultStackTracePrefix,
     Map<Level, AnsiColor>? levelColors,
-    this.levelEmojis = _defaultLevelEmojis,
-    this.levelLabels = _defaultLevelLabels,
-  }) : _levelColors = levelColors ?? _defaultLevelColors;
+    this.levelEmojis = defaultLevelEmojis,
+    this.levelLabels = defaultLevelLabels,
+  }) : _levelColors = levelColors ?? defaultLevelColors;
 
   /// If specified, it will be output at the beginning of the log.
   final String? loggerName;
@@ -50,9 +50,6 @@ class SinglePrettyPrinter extends LogPrinter {
   /// Number of stack trace methods to display.
   final int stackTraceMethodCount;
 
-  /// No stack trace that matches the regular expression is output.
-  final List<RegExp> stackTraceFilters;
-
   /// Stack trace prefix.
   final String stackTracePrefix;
 
@@ -66,13 +63,13 @@ class SinglePrettyPrinter extends LogPrinter {
   final Map<Level, String> levelLabels;
 
   /// Path to this file.
-  static final _selfPath = _getSelfPath();
+  static final selfPath = _getSelfPath();
 
   /// Stack trace prefix default.
-  static const _defaultStackTracePrefix = '│';
+  static const defaultStackTracePrefix = '│';
 
   /// Color default for each log level.
-  static final _defaultLevelColors = {
+  static final defaultLevelColors = {
     Level.verbose: AnsiColor.fg(AnsiColor.grey(0.5)),
     Level.debug: AnsiColor.none(),
     Level.info: AnsiColor.fg(12),
@@ -82,7 +79,7 @@ class SinglePrettyPrinter extends LogPrinter {
   };
 
   /// Emoji default for each log level.
-  static const _defaultLevelEmojis = {
+  static const defaultLevelEmojis = {
     Level.verbose: '🐱',
     Level.debug: '🐛',
     Level.info: '💡',
@@ -92,7 +89,7 @@ class SinglePrettyPrinter extends LogPrinter {
   };
 
   /// String default for each log level.
-  static const _defaultLevelLabels = {
+  static const defaultLevelLabels = {
     Level.verbose: '[VERBOSE]',
     Level.debug: '[DEBUG]  ',
     Level.info: '[INFO]   ',
@@ -140,12 +137,14 @@ class SinglePrettyPrinter extends LogPrinter {
     );
   }
 
-  String? _getCaller() {
-    final lines = StackTrace.current.toString().split('\n');
+  @visibleForTesting
+  String? getCaller({
+    StackTrace? stackTrace,
+  }) {
+    final lines = (stackTrace ?? StackTrace.current).toString().split('\n');
     for (final line in lines) {
       if (_discardDeviceStackTraceLine(line) ||
           _discardWebStackTraceLine(line) ||
-          _discardUserStacktraceLine(line) ||
           line.isEmpty) {
         continue;
       }
@@ -172,15 +171,15 @@ class SinglePrettyPrinter extends LogPrinter {
     for (final line in lines) {
       if (_discardDeviceStackTraceLine(line) ||
           _discardWebStackTraceLine(line) ||
-          _discardUserStacktraceLine(line) ||
           line.isEmpty) {
         continue;
       }
-      final replaced = line.replaceFirst(RegExp(r'#\d+\s+'), '');
-      formatted.add('$stackTracePrefix #$count   $replaced');
-      if (++count == stackTraceMethodCount) {
+      if (count >= stackTraceMethodCount) {
         break;
       }
+      final replaced = line.replaceFirst(RegExp(r'#\d+\s+'), '');
+      formatted.add('$stackTracePrefix #$count   $replaced');
+      count++;
     }
     return formatted;
   }
@@ -191,7 +190,7 @@ class SinglePrettyPrinter extends LogPrinter {
       return false;
     }
     return match.group(2)!.startsWith('package:roggle') ||
-        line.contains(_selfPath);
+        line.contains(selfPath);
   }
 
   bool _discardWebStackTraceLine(String line) {
@@ -201,11 +200,8 @@ class SinglePrettyPrinter extends LogPrinter {
     }
     return match.group(1)!.startsWith('packages/roggle') ||
         match.group(1)!.startsWith('dart-sdk/lib') ||
-        line.startsWith(_selfPath);
+        line.startsWith(selfPath);
   }
-
-  bool _discardUserStacktraceLine(String line) =>
-      stackTraceFilters.any((element) => element.hasMatch(line));
 
   String _getCurrentTime() {
     String _threeDigits(int n) {
@@ -292,7 +288,7 @@ class SinglePrettyPrinter extends LogPrinter {
       buffer.add(_getCurrentTime());
     }
     if (printCaller) {
-      final caller = _getCaller();
+      final caller = getCaller();
       if (caller != null) {
         buffer.add(caller);
       }
