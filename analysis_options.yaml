@@ -6,3 +6,4 @@ linter:
     avoid_classes_with_only_static_members: false
     constant_identifier_names: true
     prefer_relative_imports: true
+    cascade_invocations: false

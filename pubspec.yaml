@@ -1,10 +1,10 @@
 name: roggle
 description: Simple, colorful and easy to expand logger for dart.
 version: 0.1.0
-homepage: https://github.com/keyber-inc/roggle
+homepage: https://github.com/susatthi/roggle
 
 environment:
-  sdk: ">=2.16.2 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   logger: ^1.1.0
