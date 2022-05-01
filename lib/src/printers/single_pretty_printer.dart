@@ -205,7 +205,10 @@ class SinglePrettyPrinter extends LogPrinter {
         line.startsWith(selfPath);
   }
 
-  String _getCurrentTime() {
+  @visibleForTesting
+  String getCurrentTime({
+    DateTime? dateTime,
+  }) {
     String _threeDigits(int n) {
       if (n >= 100) {
         return '$n';
@@ -223,7 +226,7 @@ class SinglePrettyPrinter extends LogPrinter {
       return '0$n';
     }
 
-    final now = DateTime.now();
+    final now = dateTime ?? DateTime.now();
     final h = _twoDigits(now.hour);
     final min = _twoDigits(now.minute);
     final sec = _twoDigits(now.second);
@@ -287,7 +290,7 @@ class SinglePrettyPrinter extends LogPrinter {
       buffer.add(levelLabels[level]!);
     }
     if (printTime) {
-      buffer.add(_getCurrentTime());
+      buffer.add(getCurrentTime());
     }
     if (printCaller) {
       final caller = getCaller();

@@ -19,7 +19,7 @@ class Roggle {
         _output = output ?? ConsoleOutput() {
     _filter.init();
     // ignore: cascade_invocations
-    _filter.level = level ?? Logger.level;
+    _filter.level = level ?? Roggle.level;
     _printer.init();
     _output.init();
   }

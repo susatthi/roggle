@@ -551,6 +551,22 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
       );
     });
   });
+  group('getCurrentTime()', () {
+    test('getCurrentTime()', () {
+      _wrapCurrentTimeTest(
+        DateTime(2022, 1, 1, 0, 0, 0, 0),
+        '00:00:00.000',
+      );
+      _wrapCurrentTimeTest(
+        DateTime(2022, 1, 1, 10, 10, 10, 10),
+        '10:10:10.010',
+      );
+      _wrapCurrentTimeTest(
+        DateTime(2022, 1, 1, 20, 20, 20, 100),
+        '20:20:20.100',
+      );
+    });
+  });
 }
 
 String _readMessage(List<String> log) {
@@ -592,4 +608,15 @@ void _wrapCallerTest(
     stackTrace: StackTrace.fromString(stackTraceString),
   );
   expect(actualCaller, expectCaller);
+}
+
+void _wrapCurrentTimeTest(
+  DateTime dateTime,
+  String? expectTime,
+) {
+  final printer = SinglePrettyPrinter();
+  final actualTime = printer.getCurrentTime(
+    dateTime: dateTime,
+  );
+  expect(actualTime, expectTime);
 }

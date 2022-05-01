@@ -56,11 +56,16 @@ void main() {
     printedStackTrace = null;
   });
 
-  test('Constructor', () {
-    Roggle(filter: _NeverFilter(), printer: callbackPrinter)
-        .log(Level.debug, 'Some message');
+  group('Constructor', () {
+    test('default', () {
+      Roggle().d('some message');
+    });
+    test('filter', () {
+      Roggle(filter: _NeverFilter(), printer: callbackPrinter)
+          .log(Level.debug, 'Some message');
 
-    expect(printedMessage, null);
+      expect(printedMessage, null);
+    });
   });
 
   test('Roggle.log', () {
@@ -176,5 +181,52 @@ void main() {
 
     logger.w('This is');
     expect(printedMessage, 'This is');
+  });
+
+  test('setting static log level above log level of message', () {
+    printedMessage = null;
+    Roggle.level = Level.warning;
+    final logger = Roggle(
+      filter: ProductionFilter(),
+      printer: callbackPrinter,
+    )..d('This isn\'t logged');
+    expect(printedMessage, isNull);
+
+    logger.w('This is');
+    expect(printedMessage, 'This is');
+
+    Roggle.level = Level.verbose;
+  });
+
+  test('get filter', () {
+    final filter = ProductionFilter();
+    final logger = Roggle(
+      filter: filter,
+    );
+    expect(logger.filter.hashCode, filter.hashCode);
+  });
+
+  test('get printer', () {
+    final printer = SinglePrettyPrinter();
+    final logger = Roggle(
+      printer: printer,
+    );
+    expect(logger.printer.hashCode, printer.hashCode);
+  });
+
+  test('get output', () {
+    final output = ConsoleOutput();
+    final logger = Roggle(
+      output: output,
+    );
+    expect(logger.output.hashCode, output.hashCode);
+  });
+
+  test('get active', () {
+    final logger = Roggle();
+    expect(logger.active, true);
+
+    logger.close();
+    expect(logger.active, false);
   });
 }
