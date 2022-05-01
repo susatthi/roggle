@@ -434,13 +434,120 @@ void main() {
       );
     });
   });
+  group('discardDeviceStackTraceLine()', () {
+    test('discardDeviceStackTraceLine()', () {
+      final printer = SinglePrettyPrinter();
+      expect(
+        printer.discardDeviceStackTraceLine(
+          '#0      demo (file:///Users/susa/Develop/roggle/example/main.dart:22:20)',
+        ),
+        false,
+      );
+      expect(
+        printer.discardDeviceStackTraceLine(
+          '#0      _MyHomePageState._incrementCounter (package:flutter_sample_custom_logger/main.dart:51:22)',
+        ),
+        false,
+      );
+      expect(
+        printer.discardDeviceStackTraceLine(
+          '#1      Roggle.log (package:roggle/src/roggle.dart:90:31)',
+        ),
+        true,
+      );
+      expect(
+        printer.discardDeviceStackTraceLine(
+          '#2      Roggle.v (package:roggle/src/roggle.dart:46:5)',
+        ),
+        true,
+      );
+      expect(
+        printer.discardDeviceStackTraceLine(
+          '#0      SinglePrettyPrinter.log (package:roggle/src/printers/single_pretty_printer.dart:116:22)',
+        ),
+        true,
+      );
+    });
+  });
+  group('discardWebStackTraceLine()', () {
+    test('discardWebStackTraceLine()', () {
+      final printer = SinglePrettyPrinter();
+      expect(
+        printer.discardWebStackTraceLine(
+          '#0      demo (file:///Users/susa/Develop/roggle/example/main.dart:22:20)',
+        ),
+        false,
+      );
+      expect(
+        printer.discardWebStackTraceLine(
+          'dart-sdk/lib/_internal/js_dev_runtime/patch/core_patch.dart 910:28   get current',
+        ),
+        true,
+      );
+      expect(
+        printer.discardWebStackTraceLine(
+          'packages/flutter_sample_custom_logger/logger.dart 116:22             log',
+        ),
+        false,
+      );
+      expect(
+        printer.discardWebStackTraceLine(
+          'packages/roggle/src/roggle.dart 90:31                                log',
+        ),
+        true,
+      );
+      expect(
+        printer.discardWebStackTraceLine(
+          'packages/roggle/src/roggle.dart 46:5                                 v',
+        ),
+        true,
+      );
+      expect(
+        printer.discardWebStackTraceLine(
+          'packages/flutter_sample_custom_logger/main.dart 5:10                 main\$',
+        ),
+        false,
+      );
+      expect(
+        printer.discardWebStackTraceLine(
+          'packages/roggle/src/roggle.dart 90:31 package:roggle/src/printers/single_pretty_printer.dart',
+        ),
+        true,
+      );
+    });
+  });
+
   group('getCaller()', () {
     test('device', () {
       _wrapCallerTest(
-        '''
-#0      demo (file:///Users/susa/Develop/roggle/example/main.dart:22:20)
-''',
+        '#0      demo (file:///Users/susa/Develop/roggle/example/main.dart:22:20)',
         'demo (file:///Users/susa/Develop/roggle/example/main.dart:22:20)',
+      );
+      _wrapCallerTest(
+        '#0      _MyHomePageState._incrementCounter (package:flutter_sample_custom_logger/main.dart:51:22)',
+        '_MyHomePageState._incrementCounter (/main.dart:51:22)',
+      );
+      _wrapCallerTest(
+        '''
+#0      SinglePrettyPrinter.log (package:roggle/src/printers/single_pretty_printer.dart:116:22)
+#1      Roggle.log (package:roggle/src/roggle.dart:90:31)
+#2      Roggle.v (package:roggle/src/roggle.dart:46:5)
+#3      main (package:flutter_sample_custom_logger/main.dart:5:10)
+#4      _runMainZoned.<anonymous closure>.<anonymous closure> (dart:ui/hooks.dart:130:25)
+        ''',
+        'main (/main.dart:5:10)',
+      );
+    });
+    test('web', () {
+      _wrapCallerTest(
+        '''
+dart:/lib/_internal/js_dev_runtime/patch/core_patch.dart 910:28   get current
+packages/flutter_sample_custom_logger/logger.dart 116:11             log
+packages/roggle/src/roggle.dart 90:31                                log
+packages/roggle/src/roggle.dart 46:5                                 v
+packages/flutter_sample_custom_logger/main.dart 5:10                 main
+        ''',
+        '/logger.dart 116:11             log',
       );
     });
   });
