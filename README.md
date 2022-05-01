@@ -4,14 +4,16 @@
 <a href="https://codecov.io/gh/susatthi/roggle"><img src="https://codecov.io/gh/susatthi/roggle/branch/main/graph/badge.svg?token=32O6RLP872" alt="codecov"></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-purple" alt="MIT"></a>
 
-Simple, colorful and easy to expand [logger](https://pub.dev/packages/logger) for dart.<br>
-Inspired by logger and dependent to logger.
+Simple, colorful and easy to expand logger for dart.<br>
+Inspired by the [logger](https://pub.dev/packages/logger) and dependent to the logger.
 
 ## Getting Started
 
 Just create an instance of `Roggle` and start logging:
 
 ```dart
+import 'package:roggle/roggle.dart';
+
 final logger = Roggle();
 
 logger.d('Roggle is working!');
@@ -25,7 +27,14 @@ Instead of a string message, you can also pass other objects like `List`, `Map`,
 
 # Documentation
 
-Roggle's API is almost the same as logger. See [logger](https://pub.dev/packages/logger) for basic usage.
+Roggle's API is almost the same as the logger. See [logger](https://pub.dev/packages/logger) for basic usage.
+
+## Difference from the logger
+
+- Printer defaults to SinglePrettyPrinter class.
+- Not try-catch at LogOutput class, because we want to stop the process.
+- Added some getters in Roggle class.
+- Changed the log interface dynamic to Object?.
 
 ## Options
 
@@ -77,7 +86,8 @@ class AssertionOutput extends ConsoleOutput {
 }
 ```
 
-## MIT License
+## License
+
 ```
 MIT License
 
