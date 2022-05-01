@@ -17,7 +17,7 @@ Instead of a string message, you can also pass other objects like `List`, `Map`,
 
 ## Output
 
-![Roggle](https://user-images.githubusercontent.com/13707135/166134270-a2c6316f-eff1-4533-9022-eb4e6cee0697.png)
+![Roggle](https://user-images.githubusercontent.com/13707135/166134905-402bb9d1-5154-42d0-b23b-4b6c658d2452.png)
 
 # Documentation
 
@@ -40,6 +40,30 @@ final logger = Roggle(
     stackTraceMethodCount: 10, // Number of stack trace methods to display
   ),
 );
+```
+
+![SinglePrettyPrinter](https://user-images.githubusercontent.com/13707135/166135290-106a8f26-6ea3-4ecc-90ce-9f33712d3641.png)
+
+## Tips
+
+If you want to stop the process at the same time as the error log, do the following.
+
+```dart
+import 'package:roggle/roggle.dart';
+
+final logger = Roggle(
+  output: AssertionOutput(),
+);
+
+class AssertionOutput extends ConsoleOutput {
+  @override
+  void output(OutputEvent event) {
+    super.output(event);
+    if (event.level.index >= Level.error.index) {
+      throw AssertionError('Stopped by logger.');
+    }
+  }
+}
 ```
 
 ## MIT License
