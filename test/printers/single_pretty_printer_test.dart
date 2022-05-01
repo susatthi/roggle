@@ -318,6 +318,22 @@ void main() {
       );
     });
   });
+  group('timeFormatter', () {
+    test('timeFormatter is specified', () {
+      const expectedText = 'expectedText';
+      final printer = SinglePrettyPrinter(
+        timeFormatter: (now) {
+          return expectedText;
+        },
+      );
+      _wrapPropertyTest(printer, expectedText, true);
+    });
+    test('timeFormatter is not specified', () {
+      const expectedText = 'expectedText';
+      final printer = SinglePrettyPrinter();
+      _wrapPropertyTest(printer, expectedText, false);
+    });
+  });
   group('any properties is specified', () {
     test('very simple', () {
       final printer = SinglePrettyPrinter(
@@ -551,8 +567,8 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
       );
     });
   });
-  group('getCurrentTime()', () {
-    test('getCurrentTime()', () {
+  group('formatTime()', () {
+    test('formatTime()', () {
       _wrapCurrentTimeTest(
         DateTime(2022, 1, 1, 0, 0, 0, 0),
         '00:00:00.000',
@@ -614,9 +630,6 @@ void _wrapCurrentTimeTest(
   DateTime dateTime,
   String? expectTime,
 ) {
-  final printer = SinglePrettyPrinter();
-  final actualTime = printer.getCurrentTime(
-    dateTime: dateTime,
-  );
+  final actualTime = SinglePrettyPrinter.formatTime(dateTime);
   expect(actualTime, expectTime);
 }

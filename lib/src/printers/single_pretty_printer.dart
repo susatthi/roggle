@@ -22,6 +22,7 @@ class SinglePrettyPrinter extends LogPrinter {
     Map<Level, AnsiColor>? levelColors,
     this.levelEmojis = defaultLevelEmojis,
     this.levelLabels = defaultLevelLabels,
+    this.timeFormatter = formatTime,
   }) : _levelColors = levelColors ?? defaultLevelColors;
 
   /// If specified, it will be output at the beginning of the log.
@@ -61,6 +62,9 @@ class SinglePrettyPrinter extends LogPrinter {
 
   /// String for each log level.
   final Map<Level, String> levelLabels;
+
+  /// Formats the current time.
+  final TimeFormatter timeFormatter;
 
   /// Path to this file.
   static final selfPath = _getSelfPath();
@@ -206,9 +210,7 @@ class SinglePrettyPrinter extends LogPrinter {
   }
 
   @visibleForTesting
-  String getCurrentTime({
-    DateTime? dateTime,
-  }) {
+  static String formatTime(DateTime now) {
     String _threeDigits(int n) {
       if (n >= 100) {
         return '$n';
@@ -226,7 +228,6 @@ class SinglePrettyPrinter extends LogPrinter {
       return '0$n';
     }
 
-    final now = dateTime ?? DateTime.now();
     final h = _twoDigits(now.hour);
     final min = _twoDigits(now.minute);
     final sec = _twoDigits(now.second);
@@ -290,7 +291,7 @@ class SinglePrettyPrinter extends LogPrinter {
       buffer.add(levelLabels[level]!);
     }
     if (printTime) {
-      buffer.add(getCurrentTime());
+      buffer.add(timeFormatter(DateTime.now()));
     }
     if (printCaller) {
       final caller = getCaller();
@@ -301,3 +302,6 @@ class SinglePrettyPrinter extends LogPrinter {
     return buffer.isNotEmpty ? '${buffer.join(' ')}: ' : '';
   }
 }
+
+/// Function to format the current time
+typedef TimeFormatter = String Function(DateTime now);
