@@ -1,5 +1,9 @@
 # Roggle
 
+<a href="https://github.com/susatthi/roggle/actions/workflows/test.yaml"><img src="https://github.com/susatthi/roggle/actions/workflows/test.yaml/badge.svg" alt="Test"></a>
+<a href="https://codecov.io/gh/susatthi/roggle"><img src="https://codecov.io/gh/susatthi/roggle/branch/main/graph/badge.svg?token=32O6RLP872" alt="codecov"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-purple" alt="MIT"></a>
+
 Simple, colorful and easy to expand logger for dart.<br>
 Inspired by [logger](https://pub.dev/packages/logger).
 
