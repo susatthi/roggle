@@ -34,11 +34,14 @@ void main() {
       final printer = SinglePrettyPrinter();
       // _wrapPropertyTest(printer, _getSelfPath(), true);
 
+      // const frame =
+      //     'test\\printers\\single_pretty_printer_test.dart 37:27 in main.<fn>.<fn>';
       final frame = Frame.caller(0).toString();
       // ignore: avoid_print
       print(frame);
 
-      final match = RegExp(r'^(.+.dart)').firstMatch(frame);
+      final match =
+          RegExp(r'^(.+.dart)').firstMatch(frame.replaceAll('\\', '/'));
       final pattern = match == null ? '' : match.group(1)!;
       const expectContain = true;
       const expectedMessage = 'some message';
@@ -555,7 +558,14 @@ void main() {
       );
     });
   });
-
+  group('selfPath', () {
+    test('selfPath', () {
+      expect(
+        SinglePrettyPrinter.selfPath,
+        'package:roggle/src/printers/single_pretty_printer.dart',
+      );
+    });
+  });
   group('getCaller()', () {
     test('device', () {
       _wrapCallerTest(
