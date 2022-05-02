@@ -13,15 +13,21 @@ on:
 jobs:
   test:
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
-    container:
-      image: google/dart:2.14
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        sdk: [stable, beta, dev]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
+      - name: Download dart sdk
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: ${{ matrix.sdk }}
       - name: Install dependencies
         run: dart pub get
       - name: Format code
