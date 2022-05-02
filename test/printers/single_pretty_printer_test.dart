@@ -32,33 +32,7 @@ void main() {
     });
     test('printCaller is default(true)', () {
       final printer = SinglePrettyPrinter();
-      // _wrapPropertyTest(printer, _getSelfPath(), true);
-
-      // const frame =
-      //     'test\\printers\\single_pretty_printer_test.dart 37:27 in main.<fn>.<fn>';
-      final frame = Frame.caller(0).toString();
-      // ignore: avoid_print
-      print(frame);
-
-      final match =
-          RegExp(r'^(.+.dart)').firstMatch(frame.replaceAll('\\', '/'));
-      final pattern = match == null ? '' : match.group(1)!;
-      const expectContain = true;
-      const expectedMessage = 'some message';
-      final event = LogEvent(
-        Level.info,
-        expectedMessage,
-        null,
-        null,
-      );
-
-      final actualLogString = _readMessage(printer.log(event));
-      // ignore: avoid_print
-      print(actualLogString);
-      // ignore: avoid_print
-      print(pattern);
-      expect(actualLogString.contains(pattern), expectContain);
-      expect(actualLogString.contains(expectedMessage), true);
+      _wrapPropertyTest(printer, _getSelfPath(), true);
     });
   });
   group('printEmojis', () {
@@ -623,7 +597,8 @@ String _readMessage(List<String> log) {
 }
 
 String _getSelfPath() {
-  final match = RegExp(r'^(.+.dart)').firstMatch(Frame.caller(0).toString());
+  final match = RegExp(r'^(.+.dart)')
+      .firstMatch(Frame.caller(0).toString().replaceAll('\\', '/'));
   if (match == null) {
     return '';
   }
