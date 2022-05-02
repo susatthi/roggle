@@ -32,7 +32,30 @@ void main() {
     });
     test('printCaller is default(true)', () {
       final printer = SinglePrettyPrinter();
-      _wrapPropertyTest(printer, _getSelfPath(), true);
+      // _wrapPropertyTest(printer, _getSelfPath(), true);
+
+      final frame = Frame.caller(0).toString();
+      // ignore: avoid_print
+      print(frame);
+
+      final match = RegExp(r'^(.+.dart)').firstMatch(frame);
+      final pattern = match == null ? '' : match.group(1)!;
+      const expectContain = true;
+      const expectedMessage = 'some message';
+      final event = LogEvent(
+        Level.info,
+        expectedMessage,
+        null,
+        null,
+      );
+
+      final actualLogString = _readMessage(printer.log(event));
+      // ignore: avoid_print
+      print(actualLogString);
+      // ignore: avoid_print
+      print(pattern);
+      expect(actualLogString.contains(pattern), expectContain);
+      expect(actualLogString.contains(expectedMessage), true);
     });
   });
   group('printEmojis', () {
