@@ -1,0 +1,16 @@
+#!/bin/bash -e
+
+# Static analyze project
+dart analyze --fatal-infos --fatal-warnings .
+
+# Run tests
+dart test --coverage=coverage
+
+# Convert coverage to ICOV
+dart run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --packages=.packages --report-on=lib
+
+# Output to html
+genhtml coverage/lcov.info -o coverage/html
+
+# Open html
+open coverage/html/index.html

@@ -1,0 +1,67 @@
+name: Test
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        sdk: [stable, beta, dev]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Download dart sdk
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: ${{ matrix.sdk }}
+      - name: Install dependencies
+        run: dart pub get
+      - name: Format code
+        run: dart format --set-exit-if-changed .
+      - name: Static analyze project
+        run: dart analyze --fatal-infos --fatal-warnings .
+      - name: Run tests
+        run: dart test
+
+  coverage:
+    name: Coverage
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Download dart sdk
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - name: Install dependencies
+        run: dart pub get
+      - name: Run tests
+        run: dart test --coverage=coverage
+      - name: Convert coverage to ICOV
+        run: dart run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --packages=.packages --report-on=lib
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          file: coverage/lcov.info
+          fail_ci_if_error: true
+          flags: unittests
+          verbose: true
