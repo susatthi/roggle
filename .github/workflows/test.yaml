@@ -35,6 +35,26 @@ jobs:
       - name: Static analyze project
         run: dart analyze --fatal-infos --fatal-warnings .
       - name: Run tests
+        run: dart test
+
+  coverage:
+    name: Coverage
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Download dart sdk
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - name: Install dependencies
+        run: dart pub get
+      - name: Run tests
         run: dart test --coverage=coverage
       - name: Convert coverage to ICOV
         run: dart run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --packages=.packages --report-on=lib
