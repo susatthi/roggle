@@ -570,7 +570,7 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
   group('formatTime()', () {
     test('formatTime()', () {
       _wrapCurrentTimeTest(
-        DateTime(2022, 1, 1, 0, 0, 0, 0),
+        DateTime(2022),
         '00:00:00.000',
       );
       _wrapCurrentTimeTest(
