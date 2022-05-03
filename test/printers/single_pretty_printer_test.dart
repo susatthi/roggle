@@ -123,6 +123,32 @@ void main() {
     });
   });
   group('stackTraceMethodCount', () {
+    test('stackTraceMethodCount is null', () {
+      final printer = SinglePrettyPrinter(
+        stackTraceLevel: Level.info,
+        stackTraceMethodCount: null,
+      );
+      _wrapPropertyTest(
+        printer,
+        '${SinglePrettyPrinter.defaultStackTracePrefix} #0',
+        true,
+      );
+      _wrapPropertyTest(
+        printer,
+        '${SinglePrettyPrinter.defaultStackTracePrefix} #1',
+        true,
+      );
+      _wrapPropertyTest(
+        printer,
+        '${SinglePrettyPrinter.defaultStackTracePrefix} #2',
+        true,
+      );
+      _wrapPropertyTest(
+        printer,
+        '${SinglePrettyPrinter.defaultStackTracePrefix} #3',
+        true,
+      );
+    });
     test('stackTraceMethodCount is 0', () {
       final printer = SinglePrettyPrinter(
         stackTraceLevel: Level.info,
