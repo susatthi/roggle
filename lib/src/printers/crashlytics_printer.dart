@@ -70,18 +70,19 @@ class CrashlyticsPrinter extends SinglePrettyPrinter {
       onLog!.call(CrashlyticsLogEvent(event.level, message));
     }
 
-    Object? error;
-    if (event.error != null) {
-      // If error is not null, it will be sent with priority.
-      error = event.error;
-    } else if (event.level.index >= errorLevel.index) {
-      if (event.message is Exception || event.message is Error) {
-        error = event.message;
+    if (event.level.index >= errorLevel.index) {
+      Object error;
+      if (event.error != null) {
+        // If error is not null, it will be sent with priority.
+        error = event.error as Object;
+      } else if (event.message is Exception) {
+        error = event.message as Exception;
+      } else if (event.message is Error) {
+        error = event.message as Error;
       } else {
         error = stringifyMessage(event.message);
       }
-    }
-    if (error != null) {
+
       List<String> stackTraceLines;
       if (event.stackTrace != null) {
         // If stackTrace is not null, it will be sent with priority.
