@@ -55,10 +55,10 @@ class CrashlyticsPrinter extends SinglePrettyPrinter {
   final Level errorLevel;
 
   /// Callback called when an error occurs
-  final void Function(CrashlyticsErrorEvent event) onError;
+  final CrashlyticsErrorCallback onError;
 
   /// Callback called when printing a log message
-  final void Function(CrashlyticsLogEvent event)? onLog;
+  final CrashlyticsLogCallback? onLog;
 
   @override
   List<String> log(LogEvent event) {
@@ -111,3 +111,9 @@ class CrashlyticsPrinter extends SinglePrettyPrinter {
     return color('$fixed$message');
   }
 }
+
+/// Function to call when an error occurs
+typedef CrashlyticsErrorCallback = void Function(CrashlyticsErrorEvent event);
+
+/// Function to call when printing a log message
+typedef CrashlyticsLogCallback = void Function(CrashlyticsLogEvent event);
