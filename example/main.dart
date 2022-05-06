@@ -39,7 +39,7 @@ final logger = isRelease
           },
           // ignore: unnecessary_lambdas
           onLog: (event) {
-            // Send logs to Firebase Crashlytics as follows:
+            // Send logs to Firebase Crashlytics as follows
 
             // FirebaseCrashlytics.instance.log(event.message);
 

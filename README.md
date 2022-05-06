@@ -64,6 +64,34 @@ final logger = Roggle(
 
 ![SinglePrettyPrinter](https://user-images.githubusercontent.com/13707135/166135290-106a8f26-6ea3-4ecc-90ce-9f33712d3641.png)
 
+You can use the `Roggle.crashlytics()` to send errors and logs using the `FirebaseCrashlytics` API.
+
+```dart
+final logger = Roggle.crashlytics(
+  printer: CrashlyticsPrinter(
+    errorLevel: Level.error, // Logs above this level will call onError
+    onError: (event) {
+      // Send an error to Firebase Crashlytics as follows
+      FirebaseCrashlytics.instance.recordError(
+        event.exception,
+        event.stack,
+        fatal: true,
+      );
+    },
+    onLog: (event) {
+      // Send logs to Firebase Crashlytics as follows
+      FirebaseCrashlytics.instance.log(event.message);
+    },
+    loggerName: '[APP]',
+    printCaller: true, // Print a caller for each log message
+    printEmojis: true, // Print an emoji for each log message
+    printLabels: true, // Print a level string for each log message
+    levelEmojis: {}, // Replace level emojis map
+    levelLabels: {}, // Replace level labels map
+  ),
+);
+```
+
 ## Tips
 
 If you want to stop the process at the same time as the error log, do the following.

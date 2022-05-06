@@ -51,7 +51,7 @@ class CrashlyticsPrinter extends SinglePrettyPrinter {
 
   /// The current logging level to send error.
   ///
-  /// Logs above this level will be sent as error logs.
+  /// Logs above this level will call onError.
   final Level errorLevel;
 
   /// Callback called when an error occurs
