@@ -68,6 +68,17 @@ void main() {
     });
   });
 
+  group('factory Roggle.crashlytics()', () {
+    test('default', () {
+      Roggle.crashlytics(
+        printer: CrashlyticsPrinter(
+          errorLevel: Level.nothing,
+          onError: (_) {},
+        ),
+      ).d('some message');
+    });
+  });
+
   test('Roggle.log', () {
     final logger = Roggle(filter: _AlwaysFilter(), printer: callbackPrinter);
 

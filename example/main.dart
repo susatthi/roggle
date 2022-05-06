@@ -1,11 +1,60 @@
 import 'package:roggle/roggle.dart';
 
-final logger = Roggle(
-  printer: SinglePrettyPrinter(
-    loggerName: '[APP]',
-    stackTraceLevel: Level.error,
-  ),
-);
+bool get isRelease {
+  var isRelease = true;
+  assert(
+    () {
+      isRelease = false;
+      return true;
+    }(),
+  );
+  return isRelease;
+}
+
+const loggerName = '[APP]';
+
+final logger = isRelease
+    ? Roggle.crashlytics(
+        printer: CrashlyticsPrinter(
+          errorLevel: Level.error,
+          onError: (event) {
+            // Send an error to Firebase Crashlytics as follows
+
+            // FirebaseCrashlytics.instance.recordError(
+            //   event.exception,
+            //   event.stack,
+            //   fatal: true,
+            // );
+
+            // ignore: avoid_print
+            print('FirebaseCrashlytics.exception: ${event.exception}');
+            event.stack
+                .toString()
+                .split('\n')
+                .where((line) => line.isNotEmpty)
+                .forEach((line) {
+              // ignore: avoid_print
+              print('FirebaseCrashlytics.stack: $line');
+            });
+          },
+          // ignore: unnecessary_lambdas
+          onLog: (event) {
+            // Send logs to Firebase Crashlytics as follows
+
+            // FirebaseCrashlytics.instance.log(event.message);
+
+            // ignore: avoid_print
+            print('FirebaseCrashlytics.log: ${event.message}');
+          },
+          loggerName: loggerName,
+        ),
+      )
+    : Roggle(
+        printer: SinglePrettyPrinter(
+          loggerName: loggerName,
+          stackTraceLevel: Level.error,
+        ),
+      );
 
 void main() {
   // ignore: avoid_print
@@ -19,14 +68,16 @@ void demo() {
   logger.v('Hello roggle!');
   logger.d(1000);
   logger.i(true);
-  logger.w([1, 2, 3]);
-  logger.e({'key': 'key', 'value': 'value'});
-  logger.wtf(Exception('some exception'));
+  logger.i([1, 2, 3]);
+  logger.i({'key': 'key', 'value': 'value'});
+  logger.i({'apple', 'banana'});
   logger.i(() => 'function message');
+  logger.w(Exception('some exception'));
+  logger.e(NullThrownError());
 
   try {
     throw Exception('some exception');
   } on Exception catch (e, s) {
-    logger.w('with Exception', e, s);
+    logger.wtf('wtf...', e, s);
   }
 }

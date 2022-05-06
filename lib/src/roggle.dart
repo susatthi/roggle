@@ -1,5 +1,7 @@
 import 'package:logger/logger.dart';
 
+import 'outputs/dump_output.dart';
+import 'printers/crashlytics_printer.dart';
 import 'printers/single_pretty_printer.dart';
 
 /// Use instances of roggle to send log messages to the [LogPrinter].
@@ -23,6 +25,18 @@ class Roggle {
     _printer.init();
     _output.init();
   }
+
+  /// Create a new instance of Roggle for Crashlytics.
+  ///
+  /// You can provide a custom [printer].
+  factory Roggle.crashlytics({
+    required CrashlyticsPrinter printer,
+  }) =>
+      Roggle(
+        filter: ProductionFilter(),
+        printer: printer,
+        output: DumpOutput(),
+      );
 
   /// The current logging level of the app.
   ///

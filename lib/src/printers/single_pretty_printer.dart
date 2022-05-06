@@ -17,7 +17,7 @@ class SinglePrettyPrinter extends LogPrinter {
     this.printLabels = true,
     this.printTime = true,
     this.stackTraceLevel = Level.nothing,
-    this.stackTraceMethodCount = 20,
+    this.stackTraceMethodCount = defaultStackTraceMethodCount,
     this.stackTracePrefix = defaultStackTracePrefix,
     Map<Level, AnsiColor>? levelColors,
     this.levelEmojis = defaultLevelEmojis,
@@ -49,7 +49,7 @@ class SinglePrettyPrinter extends LogPrinter {
   final Level stackTraceLevel;
 
   /// Number of stack trace methods to display.
-  final int stackTraceMethodCount;
+  final int? stackTraceMethodCount;
 
   /// Stack trace prefix.
   final String stackTracePrefix;
@@ -65,6 +65,9 @@ class SinglePrettyPrinter extends LogPrinter {
 
   /// Formats the current time.
   final TimeFormatter timeFormatter;
+
+  /// Stack trace method count default.
+  static const defaultStackTraceMethodCount = 20;
 
   /// Path to this file.
   static final selfPath = _getSelfPath();
@@ -128,14 +131,14 @@ class SinglePrettyPrinter extends LogPrinter {
     List<String>? stackTraceLines;
     if (event.stackTrace != null) {
       // If stackTrace is not null, it will be displayed with priority.
-      stackTraceLines = _getStackTrace(stackTrace: event.stackTrace);
+      stackTraceLines = getStackTrace(stackTrace: event.stackTrace);
     } else if (event.level.index >= stackTraceLevel.index) {
-      stackTraceLines = _getStackTrace();
+      stackTraceLines = getStackTrace();
     }
 
     return _formatMessage(
       level: event.level,
-      message: _stringifyMessage(event.message),
+      message: stringifyMessage(event.message),
       error: event.error?.toString(),
       stackTrace: stackTraceLines,
     );
@@ -166,7 +169,8 @@ class SinglePrettyPrinter extends LogPrinter {
     return null;
   }
 
-  List<String> _getStackTrace({
+  @protected
+  List<String> getStackTrace({
     StackTrace? stackTrace,
   }) {
     final lines = (stackTrace ?? StackTrace.current).toString().split('\n');
@@ -178,7 +182,7 @@ class SinglePrettyPrinter extends LogPrinter {
           line.isEmpty) {
         continue;
       }
-      if (count >= stackTraceMethodCount) {
+      if (stackTraceMethodCount != null && count >= stackTraceMethodCount!) {
         break;
       }
       final replaced = line.replaceFirst(RegExp(r'#\d+\s+'), '');
@@ -235,7 +239,8 @@ class SinglePrettyPrinter extends LogPrinter {
     return '$h:$min:$sec.$ms';
   }
 
-  String _stringifyMessage(dynamic message) {
+  @protected
+  String stringifyMessage(dynamic message) {
     if (message is dynamic Function()) {
       return message().toString();
     } else if (message is String) {
@@ -244,7 +249,8 @@ class SinglePrettyPrinter extends LogPrinter {
     return message.toString();
   }
 
-  AnsiColor _getLevelColor(Level level) {
+  @protected
+  AnsiColor getLevelColor(Level level) {
     if (colors) {
       return _levelColors[level]!;
     } else {
@@ -258,8 +264,8 @@ class SinglePrettyPrinter extends LogPrinter {
     String? error,
     List<String>? stackTrace,
   }) {
-    final color = _getLevelColor(level);
-    final fixed = _formatFixed(level: level);
+    final color = getLevelColor(level);
+    final fixed = formatFixed(level: level);
     final logs = <String>[
       color('$fixed$message'),
     ];
@@ -276,7 +282,8 @@ class SinglePrettyPrinter extends LogPrinter {
     return logs;
   }
 
-  String _formatFixed({
+  @protected
+  String formatFixed({
     required Level level,
   }) {
     final buffer = <String>[];
