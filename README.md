@@ -5,7 +5,7 @@
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-purple" alt="MIT"></a>
 
 Simple, colorful and easy to expand logger for dart.<br>
-Inspired by the [logger](https://pub.dev/packages/logger) and dependent to the logger.
+Inspired by [the logger](https://pub.dev/packages/logger) and dependent to the logger.
 
 ## Getting Started
 
@@ -27,14 +27,14 @@ Instead of a string message, you can also pass other objects like `List`, `Map`,
 
 # Documentation
 
-Roggle's API is almost the same as the logger. See [logger](https://pub.dev/packages/logger) for basic usage.
+Roggle's API is almost the same as the logger. See [the logger](https://pub.dev/packages/logger) for basic usage.
 
 ## Difference from the logger
 
-- Printer defaults to SinglePrettyPrinter class.
-- Not try-catch at LogOutput class, because we want to stop the process.
-- Added some getters in Roggle class.
-- Changed the log interface dynamic to Object?.
+- Printer defaults to `SinglePrettyPrinter` class.
+- Not try-catch at `LogOutput` class, because we want to stop the process.
+- Added some getters in `Roggle` class.
+- Changed the log interface `dynamic` to `Object?`.
 
 ## Options
 
@@ -64,7 +64,7 @@ final logger = Roggle(
 
 ![SinglePrettyPrinter](https://user-images.githubusercontent.com/13707135/166135290-106a8f26-6ea3-4ecc-90ce-9f33712d3641.png)
 
-You can use the `Roggle.crashlytics()` to send errors and logs using the `FirebaseCrashlytics` API.
+You can use the `Roggle.crashlytics()` to send errors and logs using the `FirebaseCrashlytics` API in release mode.
 
 ```dart
 final logger = Roggle.crashlytics(
