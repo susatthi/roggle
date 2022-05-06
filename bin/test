@@ -1,5 +1,8 @@
 #!/bin/bash -e
 
+# Format code
+dart format --set-exit-if-changed .
+
 # Static analyze project
 dart analyze --fatal-infos --fatal-warnings .
 
