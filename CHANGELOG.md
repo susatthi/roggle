@@ -1,3 +1,7 @@
+## 0.2.0
+
+- fix: Changed the message property type of Roggle.log() from `Object' to 'Object?'
+
 ## 0.1.0
 
 - Update version
