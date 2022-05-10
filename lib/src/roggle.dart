@@ -56,39 +56,39 @@ class Roggle {
   bool get active => _active;
 
   /// Log a message at level [Level.verbose].
-  void v(Object message, [Object? error, StackTrace? stackTrace]) {
+  void v(Object? message, [Object? error, StackTrace? stackTrace]) {
     log(Level.verbose, message, error, stackTrace);
   }
 
   /// Log a message at level [Level.debug].
-  void d(Object message, [Object? error, StackTrace? stackTrace]) {
+  void d(Object? message, [Object? error, StackTrace? stackTrace]) {
     log(Level.debug, message, error, stackTrace);
   }
 
   /// Log a message at level [Level.info].
-  void i(Object message, [Object? error, StackTrace? stackTrace]) {
+  void i(Object? message, [Object? error, StackTrace? stackTrace]) {
     log(Level.info, message, error, stackTrace);
   }
 
   /// Log a message at level [Level.warning].
-  void w(Object message, [Object? error, StackTrace? stackTrace]) {
+  void w(Object? message, [Object? error, StackTrace? stackTrace]) {
     log(Level.warning, message, error, stackTrace);
   }
 
   /// Log a message at level [Level.error].
-  void e(Object message, [Object? error, StackTrace? stackTrace]) {
+  void e(Object? message, [Object? error, StackTrace? stackTrace]) {
     log(Level.error, message, error, stackTrace);
   }
 
   /// Log a message at level [Level.wtf].
-  void wtf(Object message, [Object? error, StackTrace? stackTrace]) {
+  void wtf(Object? message, [Object? error, StackTrace? stackTrace]) {
     log(Level.wtf, message, error, stackTrace);
   }
 
   /// Log a message with [level].
   void log(
     Level level,
-    Object message, [
+    Object? message, [
     Object? error,
     StackTrace? stackTrace,
   ]) {

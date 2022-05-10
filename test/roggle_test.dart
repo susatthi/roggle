@@ -91,6 +91,12 @@ void main() {
       expect(printedError, null);
       expect(printedStackTrace, null);
 
+      logger.log(level, null);
+      expect(printedLevel, level);
+      expect(printedMessage, null);
+      expect(printedError, null);
+      expect(printedStackTrace, null);
+
       message = Random().nextInt(999999999).toString();
       logger.log(level, message, 'MyError');
       expect(printedLevel, level);
@@ -129,6 +135,12 @@ void main() {
     expect(printedMessage, 'Test');
     expect(printedError, 'Error');
     expect(printedStackTrace, stackTrace);
+
+    logger.v(null);
+    expect(printedLevel, Level.verbose);
+    expect(printedMessage, null);
+    expect(printedError, null);
+    expect(printedStackTrace, null);
   });
 
   test('Roggle.d', () {
@@ -139,6 +151,12 @@ void main() {
     expect(printedMessage, 'Test');
     expect(printedError, 'Error');
     expect(printedStackTrace, stackTrace);
+
+    logger.d(null);
+    expect(printedLevel, Level.debug);
+    expect(printedMessage, null);
+    expect(printedError, null);
+    expect(printedStackTrace, null);
   });
 
   test('Roggle.i', () {
@@ -149,6 +167,12 @@ void main() {
     expect(printedMessage, 'Test');
     expect(printedError, 'Error');
     expect(printedStackTrace, stackTrace);
+
+    logger.i(null);
+    expect(printedLevel, Level.info);
+    expect(printedMessage, null);
+    expect(printedError, null);
+    expect(printedStackTrace, null);
   });
 
   test('Roggle.w', () {
@@ -159,6 +183,12 @@ void main() {
     expect(printedMessage, 'Test');
     expect(printedError, 'Error');
     expect(printedStackTrace, stackTrace);
+
+    logger.w(null);
+    expect(printedLevel, Level.warning);
+    expect(printedMessage, null);
+    expect(printedError, null);
+    expect(printedStackTrace, null);
   });
 
   test('Roggle.e', () {
@@ -169,6 +199,12 @@ void main() {
     expect(printedMessage, 'Test');
     expect(printedError, 'Error');
     expect(printedStackTrace, stackTrace);
+
+    logger.e(null);
+    expect(printedLevel, Level.error);
+    expect(printedMessage, null);
+    expect(printedError, null);
+    expect(printedStackTrace, null);
   });
 
   test('Roggle.wtf', () {
@@ -179,6 +215,12 @@ void main() {
     expect(printedMessage, 'Test');
     expect(printedError, 'Error');
     expect(printedStackTrace, stackTrace);
+
+    logger.wtf(null);
+    expect(printedLevel, Level.wtf);
+    expect(printedMessage, null);
+    expect(printedError, null);
+    expect(printedStackTrace, null);
   });
 
   test('setting log level above log level of message', () {
