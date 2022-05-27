@@ -15,7 +15,9 @@
       "program": "example/main.dart",
       "request": "launch",
       "type": "dart",
-      "args": []
+      "args": [
+        "--no-enable-asserts",
+      ]
     },
   ]
 }
