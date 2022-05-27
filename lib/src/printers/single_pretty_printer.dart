@@ -216,7 +216,7 @@ class SinglePrettyPrinter extends LogPrinter {
 
   @visibleForTesting
   static String formatTime(DateTime now) {
-    String _threeDigits(int n) {
+    String threeDigits(int n) {
       if (n >= 100) {
         return '$n';
       }
@@ -226,17 +226,17 @@ class SinglePrettyPrinter extends LogPrinter {
       return '00$n';
     }
 
-    String _twoDigits(int n) {
+    String twoDigits(int n) {
       if (n >= 10) {
         return '$n';
       }
       return '0$n';
     }
 
-    final h = _twoDigits(now.hour);
-    final min = _twoDigits(now.minute);
-    final sec = _twoDigits(now.second);
-    final ms = _threeDigits(now.millisecond);
+    final h = twoDigits(now.hour);
+    final min = twoDigits(now.minute);
+    final sec = twoDigits(now.second);
+    final ms = threeDigits(now.millisecond);
     return '$h:$min:$sec.$ms';
   }
 
