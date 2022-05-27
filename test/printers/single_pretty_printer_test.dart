@@ -86,12 +86,12 @@ void main() {
       final printer = SinglePrettyPrinter(stackTraceLevel: Level.warning);
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #0',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#0',
         false,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #1',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#1',
         false,
       );
     });
@@ -99,12 +99,12 @@ void main() {
       final printer = SinglePrettyPrinter(stackTraceLevel: Level.info);
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #0',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#0',
         true,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #1',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#1',
         true,
       );
     });
@@ -112,12 +112,12 @@ void main() {
       final printer = SinglePrettyPrinter();
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #0',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#0',
         false,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #1',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#1',
         false,
       );
     });
@@ -130,22 +130,22 @@ void main() {
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #0',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#0',
         true,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #1',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#1',
         true,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #2',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#2',
         true,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #3',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#3',
         true,
       );
     });
@@ -156,22 +156,22 @@ void main() {
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #0',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#0',
         false,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #1',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#1',
         false,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #2',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#2',
         false,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #3',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#3',
         false,
       );
     });
@@ -182,22 +182,22 @@ void main() {
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #0',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#0',
         true,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #1',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#1',
         false,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #2',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#2',
         false,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #3',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#3',
         false,
       );
     });
@@ -208,22 +208,22 @@ void main() {
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #0',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#0',
         true,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #1',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#1',
         true,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #2',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#2',
         false,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #3',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#3',
         false,
       );
     });
@@ -234,36 +234,36 @@ void main() {
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #0',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#0',
         true,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #1',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#1',
         true,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #2',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#2',
         true,
       );
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #3',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#3',
         false,
       );
     });
   });
   group('stackTracePrefix', () {
-    test('stackTracePrefix is >>>', () {
+    test('stackTracePrefix is >>> ', () {
       final printer = SinglePrettyPrinter(
         stackTraceLevel: Level.info,
-        stackTracePrefix: '>>>',
+        stackTracePrefix: '>>> ',
       );
       _wrapPropertyTest(printer, '>>> #0', true);
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #0',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#0',
         false,
       );
     });
@@ -274,7 +274,7 @@ void main() {
       _wrapPropertyTest(printer, '>>> #0', false);
       _wrapPropertyTest(
         printer,
-        '${SinglePrettyPrinter.defaultStackTracePrefix} #0',
+        '${SinglePrettyPrinter.defaultStackTracePrefix}#0',
         true,
       );
     });
@@ -614,6 +614,32 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
         DateTime(2022, 1, 1, 20, 20, 20, 100),
         '20:20:20.100',
       );
+    });
+  });
+  group('getStackTrace()', () {
+    test('with stackTracePrefix', () {
+      final printer = SinglePrettyPrinter();
+      // ignore: invalid_use_of_protected_member
+      final lines = printer.getStackTrace(
+        stackTrace: StackTrace.current,
+      );
+      for (final line in lines) {
+        final isMatch = RegExp(r'^\│\s#[0-9\s]{7}').hasMatch(line);
+        expect(isMatch, true);
+      }
+    });
+    test('without stackTracePrefix', () {
+      final printer = SinglePrettyPrinter(
+        stackTracePrefix: '',
+      );
+      // ignore: invalid_use_of_protected_member
+      final lines = printer.getStackTrace(
+        stackTrace: StackTrace.current,
+      );
+      for (final line in lines) {
+        final isMatch = RegExp(r'^#[0-9\s]{7}').hasMatch(line);
+        expect(isMatch, true);
+      }
     });
   });
 }
