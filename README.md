@@ -52,7 +52,7 @@ final logger = Roggle(
     stackTraceLevel:
         Level.error, // The current logging level to display stack trace
     stackTraceMethodCount: 10, // Number of stack trace methods to display
-    stackTracePrefix: '>>>', // Replace stack trace prefix
+    stackTracePrefix: '>>> ', // Replace stack trace prefix
     levelColors: {}, // Replace level colors map
     levelEmojis: {}, // Replace level emojis map
     levelLabels: {}, // Replace level labels map
