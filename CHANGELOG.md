@@ -1,3 +1,7 @@
+## 0.2.1
+
+- fix: Deleted beginning space when `defaultStackTracePrefix` is ​​empty string
+
 ## 0.2.0
 
 - fix: Changed the message property type of Roggle.log() from `Object' to 'Object?'
