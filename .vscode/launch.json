@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "example-debug",
+      "program": "example/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--enable-asserts",
+      ]
+    },
+    {
+      "name": "example-release",
+      "program": "example/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": []
+    },
+  ]
+}
