@@ -1,3 +1,7 @@
+## 0.2.1+1
+
+- fix: Fixed minimum version of meta to 1.7.0
+
 ## 0.2.1
 
 - fix: Deleted beginning space when `defaultStackTracePrefix` is ​​empty string
