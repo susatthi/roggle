@@ -73,7 +73,7 @@ class SinglePrettyPrinter extends LogPrinter {
   static final selfPath = _getSelfPath();
 
   /// Stack trace prefix default.
-  static const defaultStackTracePrefix = '│';
+  static const defaultStackTracePrefix = '│ ';
 
   /// Color default for each log level.
   static final defaultLevelColors = {
@@ -186,7 +186,8 @@ class SinglePrettyPrinter extends LogPrinter {
         break;
       }
       final replaced = line.replaceFirst(RegExp(r'#\d+\s+'), '');
-      formatted.add('$stackTracePrefix #$count   $replaced');
+      final countPart = count.toString().padRight(7);
+      formatted.add('$stackTracePrefix#$countPart$replaced');
       count++;
     }
     return formatted;
