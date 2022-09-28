@@ -1,3 +1,7 @@
+.PHONY: get-dependences
+get-dependences:
+	dart pub get
+
 .PHONY: test
 test:
 	dart format --set-exit-if-changed .
