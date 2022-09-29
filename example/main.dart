@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:roggle/roggle.dart';
 
 bool get isRelease {
@@ -26,14 +28,12 @@ final logger = isRelease
             //   fatal: true,
             // );
 
-            // ignore: avoid_print
             print('FirebaseCrashlytics.exception: ${event.exception}');
             event.stack
                 .toString()
                 .split('\n')
                 .where((line) => line.isNotEmpty)
                 .forEach((line) {
-              // ignore: avoid_print
               print('FirebaseCrashlytics.stack: $line');
             });
           },
@@ -43,7 +43,6 @@ final logger = isRelease
 
             // FirebaseCrashlytics.instance.log(event.message);
 
-            // ignore: avoid_print
             print('FirebaseCrashlytics.log: ${event.message}');
           },
           loggerName: loggerName,
@@ -57,7 +56,6 @@ final logger = isRelease
       );
 
 void main() {
-  // ignore: avoid_print
   print(
     'Run with either `dart example/main.dart` or `dart --enable-asserts example/main.dart`.',
   );
