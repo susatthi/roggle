@@ -280,7 +280,7 @@ extension _TraceHelper on Trace {
 
 extension _FrameHelper on Frame {
   /// If user frame is true, other false
-  bool get isUserFrame => !isCore && package == null;
+  bool get isUserFrame => !isCore && package != 'roggle';
 
   /// uri with line and column
   String get uriLocation {
