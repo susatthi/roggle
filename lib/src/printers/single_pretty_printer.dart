@@ -269,7 +269,6 @@ typedef TimeFormatter = String Function(DateTime now);
 extension _TraceEx on Trace {
   /// Return first frame in user frames
   Frame? get caller {
-    final a = frames;
     for (final frame in frames) {
       if (frame.isUserFrame) {
         return frame;
