@@ -162,7 +162,7 @@ class SinglePrettyPrinter extends LogPrinter {
     if (member != null) {
       parts.add(member);
     }
-    parts.add('(${frame.uriLocation})');
+    parts.add('(${frame.locationEx})');
     return parts.join(' ');
   }
 
@@ -266,9 +266,10 @@ class SinglePrettyPrinter extends LogPrinter {
 /// Function to format the current time
 typedef TimeFormatter = String Function(DateTime now);
 
-extension _TraceHelper on Trace {
+extension _TraceEx on Trace {
   /// Return first frame in user frames
   Frame? get caller {
+    final a = frames;
     for (final frame in frames) {
       if (frame.isUserFrame) {
         return frame;
@@ -278,36 +279,45 @@ extension _TraceHelper on Trace {
   }
 }
 
-extension _FrameHelper on Frame {
+extension _FrameEx on Frame {
   /// If user frame is true, other false
-  bool get isUserFrame {
-    if (package == 'roggle') {
-      return false;
-    }
-    if (isCore) {
-      return false;
-    }
-    if (isHttp) {
-      final paths = uri.path.split('/');
-      if (paths.length >= 2 && paths[0] == 'package' && paths[1] == 'roggle') {
-        return false;
-      }
-    }
-
-    return true;
-  }
+  bool get isUserFrame => !isCoreEx && packageEx != 'roggle';
 
   /// Whether this stack frame comes from the Web.
-  bool get isHttp => uri.scheme == 'http' || uri.scheme == 'https';
+  bool get isWeb => uri.scheme == 'http' || uri.scheme == 'https';
 
-  /// Uri with line and column
-  String get uriLocation {
+  /// Extension of [isCore]
+  bool get isCoreEx {
+    if (isWeb && packageEx == null) {
+      return true;
+    }
+    return isCore;
+  }
+
+  /// Extension of [library]
+  String get libraryEx =>
+      library.replaceFirst(RegExp(r'^packages\/'), 'package:');
+
+  /// Extension of [package]
+  String? get packageEx {
+    if (isWeb) {
+      final paths =
+          uri.path.split('/').where((path) => path.isNotEmpty).toList();
+      if (paths.length >= 2 && paths[0] == 'packages') {
+        return paths[1];
+      }
+    }
+    return package;
+  }
+
+  /// Extension of [location]
+  String get locationEx {
     if (line == null) {
-      return uri.toString();
+      return libraryEx;
     }
     if (column == null) {
-      return '${uri.toString()}:$line';
+      return '$libraryEx:$line';
     }
-    return '${uri.toString()}:$line:$column';
+    return '$libraryEx:$line:$column';
   }
 }
