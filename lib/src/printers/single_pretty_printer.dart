@@ -280,9 +280,27 @@ extension _TraceHelper on Trace {
 
 extension _FrameHelper on Frame {
   /// If user frame is true, other false
-  bool get isUserFrame => !isCore && package != 'roggle';
+  bool get isUserFrame {
+    if (package == 'roggle') {
+      return false;
+    }
+    if (isCore) {
+      return false;
+    }
+    if (isHttp) {
+      final paths = uri.path.split('/');
+      if (paths.length >= 2 && paths[0] == 'package' && paths[1] == 'roggle') {
+        return false;
+      }
+    }
 
-  /// uri with line and column
+    return true;
+  }
+
+  /// Whether this stack frame comes from the Web.
+  bool get isHttp => uri.scheme == 'http' || uri.scheme == 'https';
+
+  /// Uri with line and column
   String get uriLocation {
     if (line == null) {
       return uri.toString();
