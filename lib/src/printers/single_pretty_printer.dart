@@ -285,6 +285,9 @@ extension _FrameEx on Frame {
   /// Whether this stack frame comes from the Web.
   bool get isWeb => uri.scheme == 'http' || uri.scheme == 'https';
 
+  /// Whether this stack frame comes from the File.
+  bool get isFile => uri.scheme == 'file';
+
   /// Extension of [isCore]
   bool get isCoreEx {
     if (isWeb && packageEx == null) {
@@ -294,8 +297,12 @@ extension _FrameEx on Frame {
   }
 
   /// Extension of [library]
-  String get libraryEx =>
-      library.replaceFirst(RegExp(r'^packages\/'), 'package:');
+  String get libraryEx {
+    if (isFile) {
+      return uri.toString();
+    }
+    return library.replaceFirst(RegExp(r'^packages\/'), 'package:');
+  }
 
   /// Extension of [package]
   String? get packageEx {
