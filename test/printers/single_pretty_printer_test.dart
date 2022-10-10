@@ -442,7 +442,7 @@ void main() {
       expect(actualLogString.contains(expectedMessage), true);
       expect(
         actualLogString.contains(
-          'main.<anonymous closure>.<anonymous closure> (file:///Users/susa/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
+          'main.<fn>.<fn> (test/printers/single_pretty_printer_test.dart:384:24)',
         ),
         true,
       );
@@ -470,7 +470,7 @@ void main() {
       expect(actualLogString.contains(expectedError.toString()), true);
       expect(
         actualLogString.contains(
-          'main.<anonymous closure>.<anonymous closure> (file:///Users/susa/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
+          'main.<fn>.<fn> (test/printers/single_pretty_printer_test.dart:384:24)',
         ),
         true,
       );
@@ -480,11 +480,11 @@ void main() {
     test('device', () {
       _wrapCallerTest(
         '#0      demo (file:///Users/susa/Develop/roggle/example/main.dart:22:20)',
-        'demo (file:///Users/susa/Develop/roggle/example/main.dart:22:20)',
+        'demo (example/main.dart:22:20)',
       );
       _wrapCallerTest(
         '#0      _MyHomePageState._incrementCounter (package:flutter_sample_custom_logger/main.dart:51:22)',
-        '_MyHomePageState._incrementCounter (/main.dart:51:22)',
+        '_MyHomePageState._incrementCounter (package:flutter_sample_custom_logger/main.dart:51:22)',
       );
       _wrapCallerTest(
         '''
@@ -494,7 +494,7 @@ void main() {
 #3      main (package:flutter_sample_custom_logger/main.dart:5:10)
 #4      _runMainZoned.<anonymous closure>.<anonymous closure> (dart:ui/hooks.dart:130:25)
         ''',
-        'main (/main.dart:5:10)',
+        'main (package:flutter_sample_custom_logger/main.dart:5:10)',
       );
     });
     test('web', () {
@@ -506,7 +506,7 @@ packages/roggle/src/roggle.dart 90:31                                log
 packages/roggle/src/roggle.dart 46:5                                 v
 packages/flutter_sample_custom_logger/main.dart 5:10                 main
         ''',
-        '/logger.dart 116:11             log',
+        'log (package:flutter_sample_custom_logger/logger.dart:116:11)',
       );
     });
   });

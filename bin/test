@@ -10,7 +10,7 @@ dart analyze --fatal-infos --fatal-warnings .
 dart test --coverage=coverage
 
 # Convert coverage to ICOV
-dart run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --packages=.packages --report-on=lib
+dart run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --packages=.dart_tool/package_config.json --report-on=lib
 
 # Output to html
 genhtml coverage/lcov.info -o coverage/html

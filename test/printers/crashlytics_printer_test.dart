@@ -432,7 +432,7 @@ void main() {
       expect(printedErrorStack, isNotNull);
       expect(
         printedErrorStack?.toString().contains(
-              'main.<anonymous closure>.<anonymous closure> (file:///Users/susa/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
+              'main.<fn>.<fn> (test/printers/single_pretty_printer_test.dart:384:24)',
             ),
         true,
       );
