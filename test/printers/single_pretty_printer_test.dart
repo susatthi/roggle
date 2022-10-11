@@ -522,9 +522,13 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
       );
     });
     test('Dart on Windows', () {
+      var expectCaller = 'demo (example/main.dart:67:10)';
+      if (kIsWindows) {
+        expectCaller = 'demo (example\\main.dart:67:10)';
+      }
       _wrapCallerTest2(
         StackTraceFactory.dartWindows(),
-        'demo (example\\main.dart:67:10)',
+        expectCaller,
       );
     });
     test('Flutter on Web', () {
