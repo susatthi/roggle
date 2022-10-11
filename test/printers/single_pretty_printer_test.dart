@@ -1,6 +1,12 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:roggle/roggle.dart';
 import 'package:stack_trace/stack_trace.dart';
 import 'package:test/test.dart';
+
+import '../test_utils/frame_factory.dart';
+import '../test_utils/platform.dart';
+import '../test_utils/stack_trace_factory.dart';
 
 void main() {
   group('loggerName', () {
@@ -509,6 +515,54 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
         'log (package:flutter_sample_custom_logger/logger.dart:116:11)',
       );
     });
+    test('Dart on Mac', () {
+      _wrapCallerTest2(
+        StackTraceFactory.dartMac(),
+        'demo (example/main.dart:66:10)',
+      );
+    });
+    test('Dart on Windows', () {
+      _wrapCallerTest2(
+        StackTraceFactory.dartWindows(),
+        'demo (example\\main.dart:67:10)',
+      );
+    });
+    test('Flutter on Web', () {
+      var expectCaller =
+          '[_incrementCounter] (http://localhost:5000/packages/flutter_sample_roggle/main.dart:55:14)';
+      if (kIsWeb) {
+        expectCaller =
+            '[_incrementCounter] (package:flutter_sample_roggle/main.dart:55:14)';
+      }
+      _wrapCallerTest2(
+        StackTraceFactory.flutterWeb(),
+        expectCaller,
+      );
+    });
+    test('Flutter on Android', () {
+      _wrapCallerTest2(
+        StackTraceFactory.flutterAndroid(),
+        '_MyHomePageState._incrementCounter (package:flutter_sample_roggle/main.dart:55:14)',
+      );
+    });
+    test('Flutter on iOS', () {
+      _wrapCallerTest2(
+        StackTraceFactory.flutterIOS(),
+        '_MyHomePageState._incrementCounter (package:flutter_sample_roggle/main.dart:55:14)',
+      );
+    });
+    test('Flutter on Mac', () {
+      _wrapCallerTest2(
+        StackTraceFactory.flutterMac(),
+        '_MyHomePageState._incrementCounter (package:flutter_sample_roggle/main.dart:53:14)',
+      );
+    });
+    test('Flutter on Windows', () {
+      _wrapCallerTest2(
+        StackTraceFactory.flutterWindows(),
+        '_MyHomePageState._incrementCounter (package:flutter_sample_roggle/main.dart:52:14)',
+      );
+    });
   });
   group('formatTime()', () {
     test('formatTime()', () {
@@ -529,7 +583,6 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
   group('getStackTrace()', () {
     test('with stackTracePrefix', () {
       final printer = SinglePrettyPrinter();
-      // ignore: invalid_use_of_protected_member
       final lines = printer.getStackTrace(
         stackTrace: StackTrace.current,
       );
@@ -542,7 +595,6 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
       final printer = SinglePrettyPrinter(
         stackTracePrefix: '',
       );
-      // ignore: invalid_use_of_protected_member
       final lines = printer.getStackTrace(
         stackTrace: StackTrace.current,
       );
@@ -550,6 +602,127 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
         final isMatch = RegExp(r'^#[0-9\s]{7}').hasMatch(line);
         expect(isMatch, true);
       }
+    });
+  });
+  group('convertToDescription()', () {
+    test('Dart on Mac', () {
+      _wrapConvertToDescriptionTest(
+        FrameFactory.dartMac(),
+        'dummy (example/main.dart:66:10)',
+      );
+    });
+    test('Dart on Windows', () {
+      var expectDescription =
+          'dummy (/C:/Users/susa/Develop/roggle/example/main.dart:66:10)';
+      if (kIsWindows) {
+        expectDescription = 'dummy (example/main.dart:66:10)';
+      }
+      _wrapConvertToDescriptionTest(
+        FrameFactory.dartWindows(),
+        expectDescription,
+      );
+    });
+    test('Flutter on Web', () {
+      var expectDescription =
+          'dummy (http://localhost:62180/packages/flutter_sample_roggle/main.dart:66:10)';
+      if (kIsWeb) {
+        expectDescription =
+            'dummy (package:flutter_sample_roggle/main.dart:66:10)';
+      }
+      _wrapConvertToDescriptionTest(
+        FrameFactory.flutterWeb(),
+        expectDescription,
+      );
+    });
+    test('Flutter on Android', () {
+      _wrapConvertToDescriptionTest(
+        FrameFactory.flutterAndroid(),
+        'dummy (package:flutter_sample_roggle/main.dart:66:10)',
+      );
+    });
+    test('Flutter on iOS', () {
+      _wrapConvertToDescriptionTest(
+        FrameFactory.flutterIOS(),
+        'dummy (package:flutter_sample_roggle/main.dart:66:10)',
+      );
+    });
+    test('Flutter on Mac', () {
+      _wrapConvertToDescriptionTest(
+        FrameFactory.flutterMac(),
+        'dummy (package:flutter_sample_roggle/main.dart:66:10)',
+      );
+    });
+    test('Flutter on Windows', () {
+      _wrapConvertToDescriptionTest(
+        FrameFactory.flutterWindows(),
+        'dummy (package:flutter_sample_roggle/main.dart:66:10)',
+      );
+    });
+    test('Frame has uri', () {
+      _wrapConvertToDescriptionTest(
+        Frame(
+          Uri.parse('package:flutter_sample_roggle/main.dart'),
+          null,
+          null,
+          null,
+        ),
+        '(package:flutter_sample_roggle/main.dart)',
+      );
+    });
+    test('Frame has uri, line', () {
+      _wrapConvertToDescriptionTest(
+        Frame(
+          Uri.parse('package:flutter_sample_roggle/main.dart'),
+          66,
+          null,
+          null,
+        ),
+        '(package:flutter_sample_roggle/main.dart:66)',
+      );
+    });
+    test('Frame has uri, line, column', () {
+      _wrapConvertToDescriptionTest(
+        Frame(
+          Uri.parse('package:flutter_sample_roggle/main.dart'),
+          66,
+          10,
+          null,
+        ),
+        '(package:flutter_sample_roggle/main.dart:66:10)',
+      );
+    });
+    test('Frame has uri, member', () {
+      _wrapConvertToDescriptionTest(
+        Frame(
+          Uri.parse('package:flutter_sample_roggle/main.dart'),
+          null,
+          null,
+          'dummy',
+        ),
+        'dummy (package:flutter_sample_roggle/main.dart)',
+      );
+    });
+    test('Frame has uri, line, member', () {
+      _wrapConvertToDescriptionTest(
+        Frame(
+          Uri.parse('package:flutter_sample_roggle/main.dart'),
+          68,
+          null,
+          'dummy',
+        ),
+        'dummy (package:flutter_sample_roggle/main.dart:68)',
+      );
+    });
+    test('Frame has uri, column, member', () {
+      _wrapConvertToDescriptionTest(
+        Frame(
+          Uri.parse('package:flutter_sample_roggle/main.dart'),
+          null,
+          10,
+          'dummy',
+        ),
+        'dummy (package:flutter_sample_roggle/main.dart)',
+      );
     });
   });
 }
@@ -596,10 +769,30 @@ void _wrapCallerTest(
   expect(actualCaller, expectCaller);
 }
 
+void _wrapCallerTest2(
+  StackTrace stackTrace,
+  String? expectCaller,
+) {
+  final printer = SinglePrettyPrinter();
+  final actualCaller = printer.getCaller(
+    stackTrace: stackTrace,
+  );
+  expect(actualCaller, expectCaller);
+}
+
 void _wrapCurrentTimeTest(
   DateTime dateTime,
   String? expectTime,
 ) {
   final actualTime = SinglePrettyPrinter.formatTime(dateTime);
   expect(actualTime, expectTime);
+}
+
+void _wrapConvertToDescriptionTest(
+  Frame frame,
+  String? expectDescription,
+) {
+  final printer = SinglePrettyPrinter();
+  final actualDescription = printer.convertToDescription(frame);
+  expect(actualDescription, expectDescription);
 }
