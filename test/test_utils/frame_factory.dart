@@ -3,7 +3,7 @@ import 'package:stack_trace/stack_trace.dart';
 class FrameFactory {
   /// Dart on Mac
   static Frame dartMac() => Frame(
-        Uri.parse('file:///Users/susa/Develop/roggle/example/main.dart'),
+        Uri.parse('file:///Users/dummy/Develop/roggle/example/main.dart'),
         66,
         10,
         'dummy',
@@ -11,7 +11,7 @@ class FrameFactory {
 
   /// Dart on Windows
   static Frame dartWindows() => Frame(
-        Uri.parse('file:///C:/Users/susa/Develop/roggle/example/main.dart'),
+        Uri.parse('file:///C:/Users/dummy/Develop/roggle/example/main.dart'),
         66,
         10,
         'dummy',

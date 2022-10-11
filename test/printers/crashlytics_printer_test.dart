@@ -415,7 +415,7 @@ void main() {
       );
       final stackTrace = StackTrace.fromString(
         '''
-#0      main.<anonymous closure>.<anonymous closure> (file:///Users/susa/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)
+#0      main.<anonymous closure>.<anonymous closure> (file:///Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)
 #1      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:215:19)
 #2      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:213:7)
 #3      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:257:7)
@@ -432,7 +432,7 @@ void main() {
       expect(printedErrorStack, isNotNull);
       expect(
         printedErrorStack?.toString().contains(
-              'main.<fn>.<fn> (test/printers/single_pretty_printer_test.dart:384:24)',
+              'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
             ),
         true,
       );

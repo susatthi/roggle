@@ -7,8 +7,8 @@ class StackTraceFactory {
 #3      SinglePrettyPrinter.log (package:roggle/src/printers/single_pretty_printer.dart:115:12)
 #4      Roggle.log (package:roggle/src/roggle.dart:104:31)
 #5      Roggle.v (package:roggle/src/roggle.dart:60:5)
-#6      demo (file:///Users/susa/Develop/roggle/example/main.dart:66:10)
-#7      main (file:///Users/susa/Develop/roggle/example/main.dart:62:3)
+#6      demo (file:///Users/dummy/Develop/roggle/example/main.dart:66:10)
+#7      main (file:///Users/dummy/Develop/roggle/example/main.dart:62:3)
 #8      _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:297:19)
 #9      _RawReceivePortImpl._handleMessage (dart:isolate-patch/isolate_patch.dart:192:12)
 ''');

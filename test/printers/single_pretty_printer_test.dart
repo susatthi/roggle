@@ -431,7 +431,7 @@ void main() {
       const expectedMessage = 'some message';
       final stackTrace = StackTrace.fromString(
         '''
-#0      main.<anonymous closure>.<anonymous closure> (file:///Users/susa/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)
+#0      main.<anonymous closure>.<anonymous closure> (file:///Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)
 #1      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:215:19)
 #2      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:213:7)
 #3      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:257:7)
@@ -448,7 +448,7 @@ void main() {
       expect(actualLogString.contains(expectedMessage), true);
       expect(
         actualLogString.contains(
-          'main.<fn>.<fn> (test/printers/single_pretty_printer_test.dart:384:24)',
+          'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
         ),
         true,
       );
@@ -458,7 +458,7 @@ void main() {
       final expectedError = Exception('some exception');
       final stackTrace = StackTrace.fromString(
         '''
-#0      main.<anonymous closure>.<anonymous closure> (file:///Users/susa/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)
+#0      main.<anonymous closure>.<anonymous closure> (file:///Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)
 #1      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:215:19)
 #2      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:213:7)
 #3      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:257:7)
@@ -476,7 +476,7 @@ void main() {
       expect(actualLogString.contains(expectedError.toString()), true);
       expect(
         actualLogString.contains(
-          'main.<fn>.<fn> (test/printers/single_pretty_printer_test.dart:384:24)',
+          'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
         ),
         true,
       );
@@ -485,8 +485,8 @@ void main() {
   group('getCaller()', () {
     test('device', () {
       _wrapCallerTest(
-        '#0      demo (file:///Users/susa/Develop/roggle/example/main.dart:22:20)',
-        'demo (example/main.dart:22:20)',
+        '#0      demo (file:///Users/dummy/Develop/roggle/example/main.dart:22:20)',
+        'demo (/Users/dummy/Develop/roggle/example/main.dart:22:20)',
       );
       _wrapCallerTest(
         '#0      _MyHomePageState._incrementCounter (package:flutter_sample_custom_logger/main.dart:51:22)',
@@ -518,7 +518,7 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
     test('Dart on Mac', () {
       _wrapCallerTest2(
         StackTraceFactory.dartMac(),
-        'demo (example/main.dart:66:10)',
+        'demo (/Users/dummy/Develop/roggle/example/main.dart:66:10)',
       );
     });
     test('Dart on Windows', () {
@@ -612,12 +612,12 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
     test('Dart on Mac', () {
       _wrapConvertToDescriptionTest(
         FrameFactory.dartMac(),
-        'dummy (example/main.dart:66:10)',
+        'dummy (/Users/dummy/Develop/roggle/example/main.dart:66:10)',
       );
     });
     test('Dart on Windows', () {
       var expectDescription =
-          'dummy (/C:/Users/susa/Develop/roggle/example/main.dart:66:10)';
+          'dummy (/C:/Users/dummy/Develop/roggle/example/main.dart:66:10)';
       if (kIsWindows) {
         expectDescription = 'dummy (example/main.dart:66:10)';
       }
