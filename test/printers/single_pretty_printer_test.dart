@@ -38,8 +38,7 @@ void main() {
     });
     test('printCaller is default(true)', () {
       final printer = SinglePrettyPrinter();
-      // ignore: avoid_print
-      print(_getSelfPath());
+      expect(_getSelfPath(), 'test/printers/single_pretty_printer_test.dart/');
       _wrapPropertyTest(printer, _getSelfPath(), true);
     });
   });
@@ -509,6 +508,12 @@ void main() {
       );
     });
     test('web', () {
+      var expectedCaller =
+          'log (package:flutter_sample_custom_logger/logger.dart:116:11)';
+      if (kIsWindows) {
+        expectedCaller =
+            'log (package:flutter_sample_custom_logger\\logger.dart:116:11)';
+      }
       _wrapCallerTest(
         '''
 dart:/lib/_internal/js_dev_runtime/patch/core_patch.dart 910:28   get current
@@ -517,7 +522,7 @@ packages/roggle/src/roggle.dart 90:31                                log
 packages/roggle/src/roggle.dart 46:5                                 v
 packages/flutter_sample_custom_logger/main.dart 5:10                 main
         ''',
-        'log (package:flutter_sample_custom_logger/logger.dart:116:11)',
+        expectedCaller,
       );
     });
     test('Dart on Mac', () {
