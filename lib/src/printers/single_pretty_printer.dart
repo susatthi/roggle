@@ -13,6 +13,8 @@ class SinglePrettyPrinter extends LogPrinter {
     this.loggerName,
     this.colors = true,
     this.printCaller = true,
+    this.printLocation = true,
+    this.printFunctionName = true,
     this.printEmojis = true,
     this.printLabels = true,
     this.printTime = true,
@@ -33,6 +35,16 @@ class SinglePrettyPrinter extends LogPrinter {
 
   /// If set to true, caller will be output to the log.
   final bool printCaller;
+
+  /// If set to true, location of caller will be output to the log.
+  ///
+  /// Set [printCaller] to true if you want to enable [printLocation].
+  final bool printLocation;
+
+  /// If set to true, function name of caller will be output to the log.
+  ///
+  /// Set [printCaller] to true if you want to enable [printFunctionName].
+  final bool printFunctionName;
 
   /// If set to true, the emoji will be output to the log.
   final bool printEmojis;
@@ -129,7 +141,11 @@ class SinglePrettyPrinter extends LogPrinter {
     if (caller == null) {
       return null;
     }
-    return convertToDescription(caller);
+    return convertToCallerString(
+      caller,
+      printFunctionName: printFunctionName,
+      printLocation: printLocation,
+    );
   }
 
   @protected
@@ -147,22 +163,34 @@ class SinglePrettyPrinter extends LogPrinter {
         break;
       }
 
-      final description = convertToDescription(frame);
+      final caller = convertToCallerString(frame) ?? '';
       final countPart = count.toString().padRight(7);
-      formatted.add('$stackTracePrefix#$countPart$description');
+      formatted.add('$stackTracePrefix#$countPart$caller');
       count++;
     }
     return formatted;
   }
 
   @protected
-  String convertToDescription(Frame frame) {
-    final parts = <String>[];
-    final member = frame.member;
-    if (member != null) {
-      parts.add(member);
+  String? convertToCallerString(
+    Frame frame, {
+    bool printFunctionName = true,
+    bool printLocation = true,
+  }) {
+    if (!printFunctionName && !printLocation) {
+      return null;
     }
-    parts.add('(${frame.locationEx})');
+
+    final parts = <String>[];
+    if (printFunctionName) {
+      final member = frame.member;
+      if (member != null) {
+        parts.add(member);
+      }
+    }
+    if (printLocation) {
+      parts.add('(${frame.locationEx})');
+    }
     return parts.join(' ');
   }
 

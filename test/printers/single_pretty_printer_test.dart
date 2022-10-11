@@ -41,6 +41,30 @@ void main() {
       _wrapPropertyTest(printer, _getSelfPath(), true);
     });
   });
+  group('printLocation', () {
+    test('printLocation is false', () {
+      final printer = SinglePrettyPrinter(printLocation: false);
+      _wrapPropertyTest(printer, '_wrapPropertyTest', true);
+      _wrapPropertyTest(printer, _getSelfPath(), false);
+    });
+    test('printLocation is default(true)', () {
+      final printer = SinglePrettyPrinter();
+      _wrapPropertyTest(printer, '_wrapPropertyTest', true);
+      _wrapPropertyTest(printer, _getSelfPath(), true);
+    });
+  });
+  group('printFunctionName', () {
+    test('printFunctionName is false', () {
+      final printer = SinglePrettyPrinter(printFunctionName: false);
+      _wrapPropertyTest(printer, '_wrapPropertyTest', false);
+      _wrapPropertyTest(printer, _getSelfPath(), true);
+    });
+    test('printFunctionName is default(true)', () {
+      final printer = SinglePrettyPrinter();
+      _wrapPropertyTest(printer, '_wrapPropertyTest', true);
+      _wrapPropertyTest(printer, _getSelfPath(), true);
+    });
+  });
   group('printEmojis', () {
     test('printEmojis is false', () {
       final printer = SinglePrettyPrinter(printEmojis: false);
@@ -604,59 +628,59 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
       }
     });
   });
-  group('convertToDescription()', () {
+  group('convertToCallerString()', () {
     test('Dart on Mac', () {
-      _wrapConvertToDescriptionTest(
+      _wrapConvertToCallerStringTest(
         FrameFactory.dartMac(),
         'dummy (/Users/dummy/Develop/roggle/example/main.dart:66:10)',
       );
     });
     if (kIsWindows) {
       test('Dart on Windows', () {
-        _wrapConvertToDescriptionTest(
+        _wrapConvertToCallerStringTest(
           FrameFactory.dartWindows(),
           'dummy (C:/Users/dummy/Develop/roggle/example/main.dart:66:10)',
         );
       });
     }
     test('Flutter on Web', () {
-      var expectDescription =
+      var expectCallerString =
           'dummy (http://localhost:62180/packages/flutter_sample_roggle/main.dart:66:10)';
       if (kIsWeb) {
-        expectDescription =
+        expectCallerString =
             'dummy (package:flutter_sample_roggle/main.dart:66:10)';
       }
-      _wrapConvertToDescriptionTest(
+      _wrapConvertToCallerStringTest(
         FrameFactory.flutterWeb(),
-        expectDescription,
+        expectCallerString,
       );
     });
     test('Flutter on Android', () {
-      _wrapConvertToDescriptionTest(
+      _wrapConvertToCallerStringTest(
         FrameFactory.flutterAndroid(),
         'dummy (package:flutter_sample_roggle/main.dart:66:10)',
       );
     });
     test('Flutter on iOS', () {
-      _wrapConvertToDescriptionTest(
+      _wrapConvertToCallerStringTest(
         FrameFactory.flutterIOS(),
         'dummy (package:flutter_sample_roggle/main.dart:66:10)',
       );
     });
     test('Flutter on Mac', () {
-      _wrapConvertToDescriptionTest(
+      _wrapConvertToCallerStringTest(
         FrameFactory.flutterMac(),
         'dummy (package:flutter_sample_roggle/main.dart:66:10)',
       );
     });
     test('Flutter on Windows', () {
-      _wrapConvertToDescriptionTest(
+      _wrapConvertToCallerStringTest(
         FrameFactory.flutterWindows(),
         'dummy (package:flutter_sample_roggle/main.dart:66:10)',
       );
     });
     test('Frame has uri', () {
-      _wrapConvertToDescriptionTest(
+      _wrapConvertToCallerStringTest(
         Frame(
           Uri.parse('package:flutter_sample_roggle/main.dart'),
           null,
@@ -667,7 +691,7 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
       );
     });
     test('Frame has uri, line', () {
-      _wrapConvertToDescriptionTest(
+      _wrapConvertToCallerStringTest(
         Frame(
           Uri.parse('package:flutter_sample_roggle/main.dart'),
           66,
@@ -678,7 +702,7 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
       );
     });
     test('Frame has uri, line, column', () {
-      _wrapConvertToDescriptionTest(
+      _wrapConvertToCallerStringTest(
         Frame(
           Uri.parse('package:flutter_sample_roggle/main.dart'),
           66,
@@ -689,7 +713,7 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
       );
     });
     test('Frame has uri, member', () {
-      _wrapConvertToDescriptionTest(
+      _wrapConvertToCallerStringTest(
         Frame(
           Uri.parse('package:flutter_sample_roggle/main.dart'),
           null,
@@ -700,7 +724,7 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
       );
     });
     test('Frame has uri, line, member', () {
-      _wrapConvertToDescriptionTest(
+      _wrapConvertToCallerStringTest(
         Frame(
           Uri.parse('package:flutter_sample_roggle/main.dart'),
           68,
@@ -711,7 +735,7 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
       );
     });
     test('Frame has uri, column, member', () {
-      _wrapConvertToDescriptionTest(
+      _wrapConvertToCallerStringTest(
         Frame(
           Uri.parse('package:flutter_sample_roggle/main.dart'),
           null,
@@ -785,11 +809,11 @@ void _wrapCurrentTimeTest(
   expect(actualTime, expectTime);
 }
 
-void _wrapConvertToDescriptionTest(
+void _wrapConvertToCallerStringTest(
   Frame frame,
-  String? expectDescription,
+  String? expectCallerString,
 ) {
   final printer = SinglePrettyPrinter();
-  final actualDescription = printer.convertToDescription(frame);
-  expect(actualDescription, expectDescription);
+  final actualCallerString = printer.convertToCallerString(frame);
+  expect(actualCallerString, expectCallerString);
 }

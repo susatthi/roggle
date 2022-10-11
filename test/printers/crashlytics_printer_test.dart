@@ -489,6 +489,7 @@ void main() {
       );
       printer.log(generalEvent);
       expect(printedLogMessage?.contains(_getSelfPath()), false);
+      expect(printedLogMessage?.contains('main.<fn>.<fn>'), false);
     });
     test('printCaller is default(true)', () {
       final printer = CrashlyticsPrinter(
@@ -498,6 +499,53 @@ void main() {
       );
       printer.log(generalEvent);
       expect(printedLogMessage?.contains(_getSelfPath()), true);
+      expect(printedLogMessage?.contains('main.<fn>.<fn>'), true);
+    });
+  });
+  group('printFunctionName', () {
+    test('printFunctionName is false', () {
+      final printer = CrashlyticsPrinter(
+        errorLevel: Level.error,
+        onError: onError,
+        onLog: onLog,
+        printFunctionName: false,
+      );
+      printer.log(generalEvent);
+      expect(printedLogMessage?.contains(_getSelfPath()), true);
+      expect(printedLogMessage?.contains('main.<fn>.<fn>'), false);
+    });
+    test('printFunctionName is default(true)', () {
+      final printer = CrashlyticsPrinter(
+        errorLevel: Level.error,
+        onError: onError,
+        onLog: onLog,
+      );
+      printer.log(generalEvent);
+      expect(printedLogMessage?.contains(_getSelfPath()), true);
+      expect(printedLogMessage?.contains('main.<fn>.<fn>'), true);
+    });
+  });
+  group('printLocation', () {
+    test('printLocation is false', () {
+      final printer = CrashlyticsPrinter(
+        errorLevel: Level.error,
+        onError: onError,
+        onLog: onLog,
+        printLocation: false,
+      );
+      printer.log(generalEvent);
+      expect(printedLogMessage?.contains(_getSelfPath()), false);
+      expect(printedLogMessage?.contains('main.<fn>.<fn>'), true);
+    });
+    test('printLocation is default(true)', () {
+      final printer = CrashlyticsPrinter(
+        errorLevel: Level.error,
+        onError: onError,
+        onLog: onLog,
+      );
+      printer.log(generalEvent);
+      expect(printedLogMessage?.contains(_getSelfPath()), true);
+      expect(printedLogMessage?.contains('main.<fn>.<fn>'), true);
     });
   });
   group('printEmojis', () {
