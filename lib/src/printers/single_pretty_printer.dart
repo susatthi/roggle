@@ -294,8 +294,9 @@ extension _FrameEx on Frame {
   }
 
   /// Extension of [library]
-  String get libraryEx =>
-      library.replaceFirst(RegExp(r'^packages\/'), 'package:');
+  String get libraryEx => library
+      .replaceFirst(RegExp(r'^packages\/'), 'package:')
+      .replaceFirst(RegExp(r'^packages\\'), 'package:');
 
   /// Extension of [package]
   String? get packageEx {

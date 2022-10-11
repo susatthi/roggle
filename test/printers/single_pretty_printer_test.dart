@@ -38,6 +38,8 @@ void main() {
     });
     test('printCaller is default(true)', () {
       final printer = SinglePrettyPrinter();
+      // ignore: avoid_print
+      print(_getSelfPath());
       _wrapPropertyTest(printer, _getSelfPath(), true);
     });
   });
@@ -617,11 +619,12 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
       );
     });
     test('Dart on Windows', () {
-      _wrapConvertToDescriptionTest(
-        FrameFactory.dartWindows(),
-        'dummy (/C:/Users/dummy/Develop/roggle/example/main.dart:66:10)'
-            .toBackslashIfNeeded(),
-      );
+      if (kIsWindows) {
+        _wrapConvertToDescriptionTest(
+          FrameFactory.dartWindows(),
+          'dummy (C:\\Users\\dummy\\Develop\\roggle\\example\\main.dart:66:10)',
+        );
+      }
     });
     test('Flutter on Web', () {
       var expectDescription =
