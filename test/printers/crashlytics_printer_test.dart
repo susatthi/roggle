@@ -2,8 +2,6 @@ import 'package:roggle/roggle.dart';
 import 'package:stack_trace/stack_trace.dart';
 import 'package:test/test.dart';
 
-import '../test_utils/platform.dart';
-
 void main() {
   Level? printedErrorLevel;
   dynamic printedErrorException;
@@ -434,8 +432,7 @@ void main() {
       expect(printedErrorStack, isNotNull);
       expect(
         printedErrorStack?.toString().contains(
-              'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)'
-                  .toBackslashIfNeeded(),
+              'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
             ),
         true,
       );

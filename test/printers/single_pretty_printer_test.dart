@@ -38,16 +38,6 @@ void main() {
     });
     test('printCaller is default(true)', () {
       final printer = SinglePrettyPrinter();
-      // if (kIsWindows) {
-      //   final event = LogEvent(
-      //     Level.info,
-      //     'some message',
-      //     null,
-      //     null,
-      //   );
-      //   final actualLogString = _readMessage(printer.log(event));
-      //   expect(actualLogString, _getSelfPath());
-      // }
       _wrapPropertyTest(printer, _getSelfPath(), true);
     });
   });
@@ -458,8 +448,7 @@ void main() {
       expect(actualLogString.contains(expectedMessage), true);
       expect(
         actualLogString.contains(
-          'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)'
-              .toBackslashIfNeeded(),
+          'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
         ),
         true,
       );
@@ -487,8 +476,7 @@ void main() {
       expect(actualLogString.contains(expectedError.toString()), true);
       expect(
         actualLogString.contains(
-          'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)'
-              .toBackslashIfNeeded(),
+          'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
         ),
         true,
       );
@@ -498,8 +486,7 @@ void main() {
     test('device', () {
       _wrapCallerTest(
         '#0      demo (file:///Users/dummy/Develop/roggle/example/main.dart:22:20)',
-        'demo (/Users/dummy/Develop/roggle/example/main.dart:22:20)'
-            .toBackslashIfNeeded(),
+        'demo (/Users/dummy/Develop/roggle/example/main.dart:22:20)',
       );
       _wrapCallerTest(
         '#0      _MyHomePageState._incrementCounter (package:flutter_sample_custom_logger/main.dart:51:22)',
@@ -517,12 +504,6 @@ void main() {
       );
     });
     test('web', () {
-      var expectedCaller =
-          'log (package:flutter_sample_custom_logger/logger.dart:116:11)';
-      if (kIsWindows) {
-        expectedCaller =
-            'log (package:flutter_sample_custom_logger\\logger.dart:116:11)';
-      }
       _wrapCallerTest(
         '''
 dart:/lib/_internal/js_dev_runtime/patch/core_patch.dart 910:28   get current
@@ -531,20 +512,19 @@ packages/roggle/src/roggle.dart 90:31                                log
 packages/roggle/src/roggle.dart 46:5                                 v
 packages/flutter_sample_custom_logger/main.dart 5:10                 main
         ''',
-        expectedCaller,
+        'log (package:flutter_sample_custom_logger/logger.dart:116:11)',
       );
     });
     test('Dart on Mac', () {
       _wrapCallerTest2(
         StackTraceFactory.dartMac(),
-        'demo (/Users/dummy/Develop/roggle/example/main.dart:66:10)'
-            .toBackslashIfNeeded(),
+        'demo (/Users/dummy/Develop/roggle/example/main.dart:66:10)',
       );
     });
     test('Dart on Windows', () {
       _wrapCallerTest2(
         StackTraceFactory.dartWindows(),
-        'demo (example/main.dart:67:10)'.toBackslashIfNeeded(),
+        'demo (example/main.dart:67:10)',
       );
     });
     test('Flutter on Web', () {
@@ -628,18 +608,17 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
     test('Dart on Mac', () {
       _wrapConvertToDescriptionTest(
         FrameFactory.dartMac(),
-        'dummy (/Users/dummy/Develop/roggle/example/main.dart:66:10)'
-            .toBackslashIfNeeded(),
+        'dummy (/Users/dummy/Develop/roggle/example/main.dart:66:10)',
       );
     });
-    test('Dart on Windows', () {
-      if (kIsWindows) {
+    if (kIsWindows) {
+      test('Dart on Windows', () {
         _wrapConvertToDescriptionTest(
           FrameFactory.dartWindows(),
-          'dummy (C:\\Users\\dummy\\Develop\\roggle\\example\\main.dart:66:10)',
+          'dummy (C:/Users/dummy/Develop/roggle/example/main.dart:66:10)',
         );
-      }
-    });
+      });
+    }
     test('Flutter on Web', () {
       var expectDescription =
           'dummy (http://localhost:62180/packages/flutter_sample_roggle/main.dart:66:10)';
@@ -750,7 +729,8 @@ String _readMessage(List<String> log) {
 }
 
 String _getSelfPath() {
-  final match = RegExp(r'^(.+.dart)').firstMatch(Frame.caller(0).toString());
+  final match = RegExp(r'^(.+.dart)')
+      .firstMatch(Frame.caller(0).toString().replaceAll('\\', '/'));
   if (match == null) {
     return '';
   }
