@@ -10,7 +10,7 @@ environment:
 dependencies:
   logger: ^1.1.0
   meta: ">=1.7.0"
-  stack_trace: ^1.10.0
+  stack_trace: ">=1.10.0"
 
 dev_dependencies:
   coverage: <2.0.0
