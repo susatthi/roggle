@@ -8,4 +8,3 @@ linter:
     constant_identifier_names: true
     prefer_relative_imports: true
     cascade_invocations: false
-    invariant_booleans: false

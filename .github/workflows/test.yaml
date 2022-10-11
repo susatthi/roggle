@@ -33,7 +33,7 @@ jobs:
       - name: Format code
         run: dart format --set-exit-if-changed .
       - name: Static analyze project
-        run: dart analyze --fatal-infos --fatal-warnings .
+        run: dart analyze --fatal-infos --fatal-warnings lib
       - name: Run tests
         run: dart test
 
