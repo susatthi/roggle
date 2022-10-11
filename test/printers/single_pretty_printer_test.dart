@@ -38,7 +38,12 @@ void main() {
     });
     test('printCaller is default(true)', () {
       final printer = SinglePrettyPrinter();
-      expect(_getSelfPath(), 'test/printers/single_pretty_printer_test.dart/');
+      if (kIsWindows) {
+        expect(
+          _getSelfPath(),
+          'test/printers/single_pretty_printer_test.dart/',
+        );
+      }
       _wrapPropertyTest(printer, _getSelfPath(), true);
     });
   });
