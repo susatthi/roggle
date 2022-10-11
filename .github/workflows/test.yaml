@@ -18,14 +18,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        sdk: [stable, beta]
+        sdk: [stable, beta, 2.5.0]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
       - name: Download dart sdk
-        uses: dart-lang/setup-dart@v1
+        uses: dart-lang/setup-dart@v1.3
         with:
           sdk: ${{ matrix.sdk }}
       - name: Install dependencies
