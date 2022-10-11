@@ -98,10 +98,10 @@ class SinglePrettyPrinter extends LogPrinter {
   static const defaultLevelEmojis = {
     Level.verbose: '🐱',
     Level.debug: '🐛',
-    Level.info: '💡',
-    Level.warning: '⚠️',
+    Level.info: '👀',
+    Level.warning: '❗',
     Level.error: '⛔',
-    Level.wtf: '👾',
+    Level.wtf: '🔥',
   };
 
   /// String default for each log level.
