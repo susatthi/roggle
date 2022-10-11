@@ -39,10 +39,14 @@ void main() {
     test('printCaller is default(true)', () {
       final printer = SinglePrettyPrinter();
       if (kIsWindows) {
-        expect(
-          _getSelfPath(),
-          'test/printers/single_pretty_printer_test.dart/',
+        final event = LogEvent(
+          Level.info,
+          'some message',
+          null,
+          null,
         );
+        final actualLogString = _readMessage(printer.log(event));
+        expect(actualLogString, _getSelfPath());
       }
       _wrapPropertyTest(printer, _getSelfPath(), true);
     });
