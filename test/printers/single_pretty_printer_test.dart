@@ -448,7 +448,8 @@ void main() {
       expect(actualLogString.contains(expectedMessage), true);
       expect(
         actualLogString.contains(
-          'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
+          'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)'
+              .toBackslashIfNeeded(),
         ),
         true,
       );
@@ -476,7 +477,8 @@ void main() {
       expect(actualLogString.contains(expectedError.toString()), true);
       expect(
         actualLogString.contains(
-          'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
+          'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)'
+              .toBackslashIfNeeded(),
         ),
         true,
       );
@@ -486,7 +488,8 @@ void main() {
     test('device', () {
       _wrapCallerTest(
         '#0      demo (file:///Users/dummy/Develop/roggle/example/main.dart:22:20)',
-        'demo (/Users/dummy/Develop/roggle/example/main.dart:22:20)',
+        'demo (/Users/dummy/Develop/roggle/example/main.dart:22:20)'
+            .toBackslashIfNeeded(),
       );
       _wrapCallerTest(
         '#0      _MyHomePageState._incrementCounter (package:flutter_sample_custom_logger/main.dart:51:22)',
@@ -518,17 +521,14 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
     test('Dart on Mac', () {
       _wrapCallerTest2(
         StackTraceFactory.dartMac(),
-        'demo (/Users/dummy/Develop/roggle/example/main.dart:66:10)',
+        'demo (/Users/dummy/Develop/roggle/example/main.dart:66:10)'
+            .toBackslashIfNeeded(),
       );
     });
     test('Dart on Windows', () {
-      var expectCaller = 'demo (example/main.dart:67:10)';
-      if (kIsWindows) {
-        expectCaller = 'demo (example\\main.dart:67:10)';
-      }
       _wrapCallerTest2(
         StackTraceFactory.dartWindows(),
-        expectCaller,
+        'demo (example/main.dart:67:10)'.toBackslashIfNeeded(),
       );
     });
     test('Flutter on Web', () {
@@ -612,18 +612,15 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
     test('Dart on Mac', () {
       _wrapConvertToDescriptionTest(
         FrameFactory.dartMac(),
-        'dummy (/Users/dummy/Develop/roggle/example/main.dart:66:10)',
+        'dummy (/Users/dummy/Develop/roggle/example/main.dart:66:10)'
+            .toBackslashIfNeeded(),
       );
     });
     test('Dart on Windows', () {
-      var expectDescription =
-          'dummy (/C:/Users/dummy/Develop/roggle/example/main.dart:66:10)';
-      if (kIsWindows) {
-        expectDescription = 'dummy (example/main.dart:66:10)';
-      }
       _wrapConvertToDescriptionTest(
         FrameFactory.dartWindows(),
-        expectDescription,
+        'dummy (/C:/Users/dummy/Develop/roggle/example/main.dart:66:10)'
+            .toBackslashIfNeeded(),
       );
     });
     test('Flutter on Web', () {
