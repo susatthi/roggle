@@ -252,7 +252,7 @@ class SinglePrettyPrinter extends LogPrinter {
     ];
 
     if (error != null) {
-      logs.add(color('$fixed$stackTracePrefix $error'));
+      logs.add(color('$fixed$stackTracePrefix$error'));
     }
 
     if (stackTrace != null && stackTrace.isNotEmpty) {
