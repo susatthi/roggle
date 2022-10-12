@@ -415,7 +415,7 @@ void main() {
       );
       final stackTrace = StackTrace.fromString(
         '''
-#0      main.<anonymous closure>.<anonymous closure> (file:///Users/susa/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)
+#0      main.<anonymous closure>.<anonymous closure> (file:///Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)
 #1      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:215:19)
 #2      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:213:7)
 #3      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:257:7)
@@ -432,7 +432,7 @@ void main() {
       expect(printedErrorStack, isNotNull);
       expect(
         printedErrorStack?.toString().contains(
-              'main.<anonymous closure>.<anonymous closure> (file:///Users/susa/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
+              'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
             ),
         true,
       );
@@ -489,6 +489,7 @@ void main() {
       );
       printer.log(generalEvent);
       expect(printedLogMessage?.contains(_getSelfPath()), false);
+      expect(printedLogMessage?.contains('main.<fn>.<fn>'), false);
     });
     test('printCaller is default(true)', () {
       final printer = CrashlyticsPrinter(
@@ -498,6 +499,53 @@ void main() {
       );
       printer.log(generalEvent);
       expect(printedLogMessage?.contains(_getSelfPath()), true);
+      expect(printedLogMessage?.contains('main.<fn>.<fn>'), true);
+    });
+  });
+  group('printFunctionName', () {
+    test('printFunctionName is false', () {
+      final printer = CrashlyticsPrinter(
+        errorLevel: Level.error,
+        onError: onError,
+        onLog: onLog,
+        printFunctionName: false,
+      );
+      printer.log(generalEvent);
+      expect(printedLogMessage?.contains(_getSelfPath()), true);
+      expect(printedLogMessage?.contains('main.<fn>.<fn>'), false);
+    });
+    test('printFunctionName is default(true)', () {
+      final printer = CrashlyticsPrinter(
+        errorLevel: Level.error,
+        onError: onError,
+        onLog: onLog,
+      );
+      printer.log(generalEvent);
+      expect(printedLogMessage?.contains(_getSelfPath()), true);
+      expect(printedLogMessage?.contains('main.<fn>.<fn>'), true);
+    });
+  });
+  group('printLocation', () {
+    test('printLocation is false', () {
+      final printer = CrashlyticsPrinter(
+        errorLevel: Level.error,
+        onError: onError,
+        onLog: onLog,
+        printLocation: false,
+      );
+      printer.log(generalEvent);
+      expect(printedLogMessage?.contains(_getSelfPath()), false);
+      expect(printedLogMessage?.contains('main.<fn>.<fn>'), true);
+    });
+    test('printLocation is default(true)', () {
+      final printer = CrashlyticsPrinter(
+        errorLevel: Level.error,
+        onError: onError,
+        onLog: onLog,
+      );
+      printer.log(generalEvent);
+      expect(printedLogMessage?.contains(_getSelfPath()), true);
+      expect(printedLogMessage?.contains('main.<fn>.<fn>'), true);
     });
   });
   group('printEmojis', () {

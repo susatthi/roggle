@@ -23,7 +23,7 @@ Instead of a string message, you can also pass other objects like `List`, `Map`,
 
 ## Output
 
-![Roggle](https://user-images.githubusercontent.com/13707135/166134905-402bb9d1-5154-42d0-b23b-4b6c658d2452.png)
+![androidstudio](https://user-images.githubusercontent.com/13707135/195221622-341dbf2d-5708-441b-a804-5eae969855d6.png)
 
 # Documentation
 
@@ -46,6 +46,8 @@ final logger = Roggle(
     loggerName: '[APP]', // Print a logger name for each log message
     colors: true, // Colorful log messages
     printCaller: true, // Print a caller for each log message
+    printLocation: true, // Print a location of caller for each log message
+    printFunctionName: true, // Print a function name of caller for each log message
     printEmojis: true, // Print an emoji for each log message
     printLabels: true, // Print a level string for each log message
     printTime: true, // Print a timestamp for each log message
@@ -62,7 +64,7 @@ final logger = Roggle(
 );
 ```
 
-![SinglePrettyPrinter](https://user-images.githubusercontent.com/13707135/166135290-106a8f26-6ea3-4ecc-90ce-9f33712d3641.png)
+![SinglePrettyPrinter](https://user-images.githubusercontent.com/13707135/195223339-4837870f-cfcd-4447-b0b1-f958531a6db0.png)
 
 You can use the `Roggle.crashlytics()` to send errors and logs using the `FirebaseCrashlytics` API in release mode.
 
@@ -84,6 +86,8 @@ final logger = Roggle.crashlytics(
     },
     loggerName: '[APP]',
     printCaller: true, // Print a caller for each log message
+    printLocation: true, // Print a location of caller for each log message
+    printFunctionName: true, // Print a function name of caller for each log message
     printEmojis: true, // Print an emoji for each log message
     printLabels: true, // Print a level string for each log message
     levelEmojis: {}, // Replace level emojis map

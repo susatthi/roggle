@@ -1,6 +1,12 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:roggle/roggle.dart';
 import 'package:stack_trace/stack_trace.dart';
 import 'package:test/test.dart';
+
+import '../test_utils/frame_factory.dart';
+import '../test_utils/platform.dart';
+import '../test_utils/stack_trace_factory.dart';
 
 void main() {
   group('loggerName', () {
@@ -32,6 +38,30 @@ void main() {
     });
     test('printCaller is default(true)', () {
       final printer = SinglePrettyPrinter();
+      _wrapPropertyTest(printer, _getSelfPath(), true);
+    });
+  });
+  group('printLocation', () {
+    test('printLocation is false', () {
+      final printer = SinglePrettyPrinter(printLocation: false);
+      _wrapPropertyTest(printer, '_wrapPropertyTest', true);
+      _wrapPropertyTest(printer, _getSelfPath(), false);
+    });
+    test('printLocation is default(true)', () {
+      final printer = SinglePrettyPrinter();
+      _wrapPropertyTest(printer, '_wrapPropertyTest', true);
+      _wrapPropertyTest(printer, _getSelfPath(), true);
+    });
+  });
+  group('printFunctionName', () {
+    test('printFunctionName is false', () {
+      final printer = SinglePrettyPrinter(printFunctionName: false);
+      _wrapPropertyTest(printer, '_wrapPropertyTest', false);
+      _wrapPropertyTest(printer, _getSelfPath(), true);
+    });
+    test('printFunctionName is default(true)', () {
+      final printer = SinglePrettyPrinter();
+      _wrapPropertyTest(printer, '_wrapPropertyTest', true);
       _wrapPropertyTest(printer, _getSelfPath(), true);
     });
   });
@@ -425,7 +455,7 @@ void main() {
       const expectedMessage = 'some message';
       final stackTrace = StackTrace.fromString(
         '''
-#0      main.<anonymous closure>.<anonymous closure> (file:///Users/susa/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)
+#0      main.<anonymous closure>.<anonymous closure> (file:///Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)
 #1      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:215:19)
 #2      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:213:7)
 #3      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:257:7)
@@ -442,7 +472,7 @@ void main() {
       expect(actualLogString.contains(expectedMessage), true);
       expect(
         actualLogString.contains(
-          'main.<anonymous closure>.<anonymous closure> (file:///Users/susa/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
+          'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
         ),
         true,
       );
@@ -452,7 +482,7 @@ void main() {
       final expectedError = Exception('some exception');
       final stackTrace = StackTrace.fromString(
         '''
-#0      main.<anonymous closure>.<anonymous closure> (file:///Users/susa/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)
+#0      main.<anonymous closure>.<anonymous closure> (file:///Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)
 #1      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:215:19)
 #2      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:213:7)
 #3      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:257:7)
@@ -470,111 +500,21 @@ void main() {
       expect(actualLogString.contains(expectedError.toString()), true);
       expect(
         actualLogString.contains(
-          'main.<anonymous closure>.<anonymous closure> (file:///Users/susa/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
+          'main.<fn>.<fn> (/Users/dummy/Develop/roggle/test/printers/single_pretty_printer_test.dart:384:24)',
         ),
         true,
-      );
-    });
-  });
-  group('discardDeviceStackTraceLine()', () {
-    test('discardDeviceStackTraceLine()', () {
-      final printer = SinglePrettyPrinter();
-      expect(
-        printer.discardDeviceStackTraceLine(
-          '#0      demo (file:///Users/susa/Develop/roggle/example/main.dart:22:20)',
-        ),
-        false,
-      );
-      expect(
-        printer.discardDeviceStackTraceLine(
-          '#0      _MyHomePageState._incrementCounter (package:flutter_sample_custom_logger/main.dart:51:22)',
-        ),
-        false,
-      );
-      expect(
-        printer.discardDeviceStackTraceLine(
-          '#1      Roggle.log (package:roggle/src/roggle.dart:90:31)',
-        ),
-        true,
-      );
-      expect(
-        printer.discardDeviceStackTraceLine(
-          '#2      Roggle.v (package:roggle/src/roggle.dart:46:5)',
-        ),
-        true,
-      );
-      expect(
-        printer.discardDeviceStackTraceLine(
-          '#0      SinglePrettyPrinter.log (package:roggle/src/printers/single_pretty_printer.dart:116:22)',
-        ),
-        true,
-      );
-    });
-  });
-  group('discardWebStackTraceLine()', () {
-    test('discardWebStackTraceLine()', () {
-      final printer = SinglePrettyPrinter();
-      expect(
-        printer.discardWebStackTraceLine(
-          '#0      demo (file:///Users/susa/Develop/roggle/example/main.dart:22:20)',
-        ),
-        false,
-      );
-      expect(
-        printer.discardWebStackTraceLine(
-          'dart-sdk/lib/_internal/js_dev_runtime/patch/core_patch.dart 910:28   get current',
-        ),
-        true,
-      );
-      expect(
-        printer.discardWebStackTraceLine(
-          'packages/flutter_sample_custom_logger/logger.dart 116:22             log',
-        ),
-        false,
-      );
-      expect(
-        printer.discardWebStackTraceLine(
-          'packages/roggle/src/roggle.dart 90:31                                log',
-        ),
-        true,
-      );
-      expect(
-        printer.discardWebStackTraceLine(
-          'packages/roggle/src/roggle.dart 46:5                                 v',
-        ),
-        true,
-      );
-      expect(
-        printer.discardWebStackTraceLine(
-          'packages/flutter_sample_custom_logger/main.dart 5:10                 main\$',
-        ),
-        false,
-      );
-      expect(
-        printer.discardWebStackTraceLine(
-          'packages/roggle/src/roggle.dart 90:31 package:roggle/src/printers/single_pretty_printer.dart',
-        ),
-        true,
-      );
-    });
-  });
-  group('selfPath', () {
-    test('selfPath', () {
-      expect(
-        SinglePrettyPrinter.selfPath,
-        'package:roggle/src/printers/single_pretty_printer.dart',
       );
     });
   });
   group('getCaller()', () {
     test('device', () {
       _wrapCallerTest(
-        '#0      demo (file:///Users/susa/Develop/roggle/example/main.dart:22:20)',
-        'demo (file:///Users/susa/Develop/roggle/example/main.dart:22:20)',
+        '#0      demo (file:///Users/dummy/Develop/roggle/example/main.dart:22:20)',
+        'demo (/Users/dummy/Develop/roggle/example/main.dart:22:20)',
       );
       _wrapCallerTest(
         '#0      _MyHomePageState._incrementCounter (package:flutter_sample_custom_logger/main.dart:51:22)',
-        '_MyHomePageState._incrementCounter (/main.dart:51:22)',
+        '_MyHomePageState._incrementCounter (package:flutter_sample_custom_logger/main.dart:51:22)',
       );
       _wrapCallerTest(
         '''
@@ -584,7 +524,7 @@ void main() {
 #3      main (package:flutter_sample_custom_logger/main.dart:5:10)
 #4      _runMainZoned.<anonymous closure>.<anonymous closure> (dart:ui/hooks.dart:130:25)
         ''',
-        'main (/main.dart:5:10)',
+        'main (package:flutter_sample_custom_logger/main.dart:5:10)',
       );
     });
     test('web', () {
@@ -596,7 +536,55 @@ packages/roggle/src/roggle.dart 90:31                                log
 packages/roggle/src/roggle.dart 46:5                                 v
 packages/flutter_sample_custom_logger/main.dart 5:10                 main
         ''',
-        '/logger.dart 116:11             log',
+        'log (package:flutter_sample_custom_logger/logger.dart:116:11)',
+      );
+    });
+    test('Dart on Mac', () {
+      _wrapCallerTest2(
+        StackTraceFactory.dartMac(),
+        'demo (/Users/dummy/Develop/roggle/example/main.dart:66:10)',
+      );
+    });
+    test('Dart on Windows', () {
+      _wrapCallerTest2(
+        StackTraceFactory.dartWindows(),
+        'demo (example/main.dart:67:10)',
+      );
+    });
+    test('Flutter on Web', () {
+      var expectCaller =
+          '[_incrementCounter] (http://localhost:5000/packages/flutter_sample_roggle/main.dart:55:14)';
+      if (kIsWeb) {
+        expectCaller =
+            '[_incrementCounter] (package:flutter_sample_roggle/main.dart:55:14)';
+      }
+      _wrapCallerTest2(
+        StackTraceFactory.flutterWeb(),
+        expectCaller,
+      );
+    });
+    test('Flutter on Android', () {
+      _wrapCallerTest2(
+        StackTraceFactory.flutterAndroid(),
+        '_MyHomePageState._incrementCounter (package:flutter_sample_roggle/main.dart:55:14)',
+      );
+    });
+    test('Flutter on iOS', () {
+      _wrapCallerTest2(
+        StackTraceFactory.flutterIOS(),
+        '_MyHomePageState._incrementCounter (package:flutter_sample_roggle/main.dart:55:14)',
+      );
+    });
+    test('Flutter on Mac', () {
+      _wrapCallerTest2(
+        StackTraceFactory.flutterMac(),
+        '_MyHomePageState._incrementCounter (package:flutter_sample_roggle/main.dart:53:14)',
+      );
+    });
+    test('Flutter on Windows', () {
+      _wrapCallerTest2(
+        StackTraceFactory.flutterWindows(),
+        '_MyHomePageState._incrementCounter (package:flutter_sample_roggle/main.dart:52:14)',
       );
     });
   });
@@ -619,7 +607,6 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
   group('getStackTrace()', () {
     test('with stackTracePrefix', () {
       final printer = SinglePrettyPrinter();
-      // ignore: invalid_use_of_protected_member
       final lines = printer.getStackTrace(
         stackTrace: StackTrace.current,
       );
@@ -632,7 +619,6 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
       final printer = SinglePrettyPrinter(
         stackTracePrefix: '',
       );
-      // ignore: invalid_use_of_protected_member
       final lines = printer.getStackTrace(
         stackTrace: StackTrace.current,
       );
@@ -640,6 +626,124 @@ packages/flutter_sample_custom_logger/main.dart 5:10                 main
         final isMatch = RegExp(r'^#[0-9\s]{7}').hasMatch(line);
         expect(isMatch, true);
       }
+    });
+  });
+  group('convertToCallerString()', () {
+    test('Dart on Mac', () {
+      _wrapConvertToCallerStringTest(
+        FrameFactory.dartMac(),
+        'dummy (/Users/dummy/Develop/roggle/example/main.dart:66:10)',
+      );
+    });
+    if (kIsWindows) {
+      test('Dart on Windows', () {
+        _wrapConvertToCallerStringTest(
+          FrameFactory.dartWindows(),
+          'dummy (C:/Users/dummy/Develop/roggle/example/main.dart:66:10)',
+        );
+      });
+    }
+    test('Flutter on Web', () {
+      var expectCallerString =
+          'dummy (http://localhost:62180/packages/flutter_sample_roggle/main.dart:66:10)';
+      if (kIsWeb) {
+        expectCallerString =
+            'dummy (package:flutter_sample_roggle/main.dart:66:10)';
+      }
+      _wrapConvertToCallerStringTest(
+        FrameFactory.flutterWeb(),
+        expectCallerString,
+      );
+    });
+    test('Flutter on Android', () {
+      _wrapConvertToCallerStringTest(
+        FrameFactory.flutterAndroid(),
+        'dummy (package:flutter_sample_roggle/main.dart:66:10)',
+      );
+    });
+    test('Flutter on iOS', () {
+      _wrapConvertToCallerStringTest(
+        FrameFactory.flutterIOS(),
+        'dummy (package:flutter_sample_roggle/main.dart:66:10)',
+      );
+    });
+    test('Flutter on Mac', () {
+      _wrapConvertToCallerStringTest(
+        FrameFactory.flutterMac(),
+        'dummy (package:flutter_sample_roggle/main.dart:66:10)',
+      );
+    });
+    test('Flutter on Windows', () {
+      _wrapConvertToCallerStringTest(
+        FrameFactory.flutterWindows(),
+        'dummy (package:flutter_sample_roggle/main.dart:66:10)',
+      );
+    });
+    test('Frame has uri', () {
+      _wrapConvertToCallerStringTest(
+        Frame(
+          Uri.parse('package:flutter_sample_roggle/main.dart'),
+          null,
+          null,
+          null,
+        ),
+        '(package:flutter_sample_roggle/main.dart)',
+      );
+    });
+    test('Frame has uri, line', () {
+      _wrapConvertToCallerStringTest(
+        Frame(
+          Uri.parse('package:flutter_sample_roggle/main.dart'),
+          66,
+          null,
+          null,
+        ),
+        '(package:flutter_sample_roggle/main.dart:66)',
+      );
+    });
+    test('Frame has uri, line, column', () {
+      _wrapConvertToCallerStringTest(
+        Frame(
+          Uri.parse('package:flutter_sample_roggle/main.dart'),
+          66,
+          10,
+          null,
+        ),
+        '(package:flutter_sample_roggle/main.dart:66:10)',
+      );
+    });
+    test('Frame has uri, member', () {
+      _wrapConvertToCallerStringTest(
+        Frame(
+          Uri.parse('package:flutter_sample_roggle/main.dart'),
+          null,
+          null,
+          'dummy',
+        ),
+        'dummy (package:flutter_sample_roggle/main.dart)',
+      );
+    });
+    test('Frame has uri, line, member', () {
+      _wrapConvertToCallerStringTest(
+        Frame(
+          Uri.parse('package:flutter_sample_roggle/main.dart'),
+          68,
+          null,
+          'dummy',
+        ),
+        'dummy (package:flutter_sample_roggle/main.dart:68)',
+      );
+    });
+    test('Frame has uri, column, member', () {
+      _wrapConvertToCallerStringTest(
+        Frame(
+          Uri.parse('package:flutter_sample_roggle/main.dart'),
+          null,
+          10,
+          'dummy',
+        ),
+        'dummy (package:flutter_sample_roggle/main.dart)',
+      );
     });
   });
 }
@@ -686,10 +790,30 @@ void _wrapCallerTest(
   expect(actualCaller, expectCaller);
 }
 
+void _wrapCallerTest2(
+  StackTrace stackTrace,
+  String? expectCaller,
+) {
+  final printer = SinglePrettyPrinter();
+  final actualCaller = printer.getCaller(
+    stackTrace: stackTrace,
+  );
+  expect(actualCaller, expectCaller);
+}
+
 void _wrapCurrentTimeTest(
   DateTime dateTime,
   String? expectTime,
 ) {
   final actualTime = SinglePrettyPrinter.formatTime(dateTime);
   expect(actualTime, expectTime);
+}
+
+void _wrapConvertToCallerStringTest(
+  Frame frame,
+  String? expectCallerString,
+) {
+  final printer = SinglePrettyPrinter();
+  final actualCallerString = printer.convertToCallerString(frame);
+  expect(actualCallerString, expectCallerString);
 }
