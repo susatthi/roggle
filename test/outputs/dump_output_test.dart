@@ -4,6 +4,7 @@ import 'package:test/test.dart';
 void main() {
   test('output()', () {
     final output = DumpOutput();
-    output.output(OutputEvent(Level.error, []));
+    final logEvent = LogEvent(Level.error, '');
+    output.output(OutputEvent(logEvent, []));
   });
 }

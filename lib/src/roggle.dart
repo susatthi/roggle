@@ -104,7 +104,7 @@ class Roggle {
       final output = _printer.log(logEvent);
 
       if (output.isNotEmpty) {
-        final outputEvent = OutputEvent(level, output);
+        final outputEvent = OutputEvent(logEvent, output);
         // I didn't try to catch it because I wanted
         // to stop the app on purpose.
         _output.output(outputEvent);

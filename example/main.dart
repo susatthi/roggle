@@ -71,7 +71,7 @@ void demo() {
   logger.i({'apple', 'banana'});
   logger.i(() => 'function message');
   logger.w(Exception('some exception'));
-  logger.e(NullThrownError());
+  logger.e(TypeError());
 
   try {
     throw Exception('some exception');

@@ -41,8 +41,6 @@ void main() {
         final event = LogEvent(
           level,
           '',
-          null,
-          null,
         );
         printer.log(event);
         expect(printedLogLevel, level);
@@ -77,8 +75,6 @@ void main() {
         final event = LogEvent(
           level,
           expectedMessage,
-          null,
-          null,
         );
         printer.log(event);
         expect(printedLogLevel, level);
@@ -113,8 +109,6 @@ void main() {
         final event = LogEvent(
           level,
           expectedMessage,
-          null,
-          null,
         );
         printer.log(event);
         expect(printedLogLevel, level);
@@ -153,8 +147,6 @@ void main() {
         final event = LogEvent(
           level,
           expectedMessage,
-          null,
-          null,
         );
         printer.log(event);
         expect(printedLogLevel, level);
@@ -193,8 +185,6 @@ void main() {
         final event = LogEvent(
           level,
           expectedMessage,
-          null,
-          null,
         );
         printer.log(event);
         expect(printedLogLevel, level);
@@ -233,8 +223,6 @@ void main() {
         final event = LogEvent(
           level,
           expectedMessage,
-          null,
-          null,
         );
         printer.log(event);
         expect(printedLogLevel, level);
@@ -273,8 +261,6 @@ void main() {
         final event = LogEvent(
           level,
           expectedMessage,
-          null,
-          null,
         );
         printer.log(event);
         expect(printedLogLevel, level);
@@ -311,8 +297,6 @@ void main() {
       final event = LogEvent(
         Level.error,
         expectedMessage,
-        null,
-        null,
       );
       printer.log(event);
       expect(printedErrorException, expectedMessage);
@@ -326,14 +310,12 @@ void main() {
       final event = LogEvent(
         Level.error,
         expectedMessage,
-        null,
-        null,
       );
       printer.log(event);
       expect(printedErrorException, expectedMessage);
     });
     test('error is null and message is Error', () {
-      final expectedMessage = NullThrownError();
+      final expectedMessage = TypeError();
       final printer = CrashlyticsPrinter(
         errorLevel: Level.error,
         onError: onError,
@@ -341,8 +323,6 @@ void main() {
       final event = LogEvent(
         Level.error,
         expectedMessage,
-        null,
-        null,
       );
       printer.log(event);
       expect(printedErrorException, expectedMessage);
@@ -354,8 +334,6 @@ void main() {
       );
       final event = LogEvent(
         Level.error,
-        null,
-        null,
         null,
       );
       printer.log(event);
@@ -371,13 +349,12 @@ void main() {
         Level.error,
         'some message',
         expectedError,
-        null,
       );
       printer.log(event);
       expect(printedErrorException, expectedError);
     });
     test('error is exception and message is string', () {
-      final expectedError = NullThrownError();
+      final expectedError = TypeError();
       final printer = CrashlyticsPrinter(
         errorLevel: Level.error,
         onError: onError,
@@ -386,7 +363,6 @@ void main() {
         Level.error,
         'some message',
         expectedError,
-        null,
       );
       printer.log(event);
       expect(printedErrorException, expectedError);
@@ -401,7 +377,6 @@ void main() {
         Level.error,
         'some message',
         expectedError,
-        null,
       );
       printer.log(event);
       expect(printedErrorException, expectedError);
@@ -450,7 +425,6 @@ void main() {
         Level.error,
         'some message',
         expectedError,
-        null,
       );
       printer.log(event);
       expect(printedErrorException, expectedError);
@@ -708,6 +682,4 @@ String _getSelfPath() {
 LogEvent get generalEvent => LogEvent(
       Level.error,
       'some message',
-      null,
-      null,
     );
