@@ -1,3 +1,7 @@
+## 0.3.1
+
+- fix: Upgrade logger package to 1.2.2.
+
 ## 0.3.0
 
 - feature: Added `printLocation` parameter. If set to `true`, location of caller will be output to the log.
