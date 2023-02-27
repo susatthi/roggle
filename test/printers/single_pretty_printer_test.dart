@@ -420,8 +420,6 @@ void main() {
       final event = LogEvent(
         Level.info,
         null,
-        null,
-        null,
       );
       final actualLogString = _readMessage(printer.log(event));
       expect(actualLogString.contains('null'), true);
@@ -431,8 +429,6 @@ void main() {
       final event = LogEvent(
         Level.info,
         () => 'function message',
-        null,
-        null,
       );
       final actualLogString = _readMessage(printer.log(event));
       expect(actualLogString.contains('function message'), true);
@@ -445,7 +441,6 @@ void main() {
         Level.info,
         expectedMessage,
         expectedError,
-        null,
       );
       final actualLogString = _readMessage(printer.log(event));
       expect(actualLogString.contains(expectedMessage), true);
@@ -770,8 +765,6 @@ void _wrapPropertyTest(
   final event = LogEvent(
     Level.info,
     expectedMessage,
-    null,
-    null,
   );
 
   final actualLogString = _readMessage(printer.log(event));
