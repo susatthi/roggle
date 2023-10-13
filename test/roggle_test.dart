@@ -1,7 +1,12 @@
+// ignore: lines_longer_than_80_chars
+// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package
+
 import 'dart:math';
 
 import 'package:roggle/roggle.dart';
 import 'package:test/test.dart';
+
+import 'test_utils/utils.dart';
 
 typedef PrinterCallback = List<String> Function(
   Level level,
@@ -72,7 +77,7 @@ void main() {
     test('default', () {
       Roggle.crashlytics(
         printer: CrashlyticsPrinter(
-          errorLevel: Level.nothing,
+          errorLevel: Level.off,
           onError: (_) {},
         ),
       ).d('some message');
@@ -82,7 +87,7 @@ void main() {
   test('Roggle.log', () {
     final logger = Roggle(filter: _AlwaysFilter(), printer: callbackPrinter);
 
-    final levels = Level.values.take(6);
+    final levels = getAvailableLogLevel();
     for (final level in levels) {
       var message = Random().nextInt(999999999).toString();
       logger.log(level, message);
@@ -114,17 +119,18 @@ void main() {
     }
 
     expect(
-      () => logger.log(Level.verbose, 'Test', StackTrace.current),
+      () => logger.log(Level.trace, 'Test', StackTrace.current),
       throwsArgumentError,
     );
-    expect(() => logger.log(Level.nothing, 'Test'), throwsArgumentError);
+    expect(() => logger.log(Level.off, 'Test'), throwsArgumentError);
+    expect(() => logger.log(Level.all, 'Test'), throwsArgumentError);
 
     logger.close();
-    expect(() => logger.log(Level.verbose, 'Test'), throwsArgumentError);
+    expect(() => logger.log(Level.trace, 'Test'), throwsArgumentError);
 
     // Execute close() twice
     logger.close();
-    expect(() => logger.log(Level.verbose, 'Test'), throwsArgumentError);
+    expect(() => logger.log(Level.trace, 'Test'), throwsArgumentError);
   });
 
   test('Roggle.v', () {
@@ -138,6 +144,22 @@ void main() {
 
     logger.v(null);
     expect(printedLevel, Level.verbose);
+    expect(printedMessage, null);
+    expect(printedError, null);
+    expect(printedStackTrace, null);
+  });
+
+  test('Roggle.t', () {
+    final logger = Roggle(filter: _AlwaysFilter(), printer: callbackPrinter);
+    final stackTrace = StackTrace.current;
+    logger.t('Test', 'Error', stackTrace);
+    expect(printedLevel, Level.trace);
+    expect(printedMessage, 'Test');
+    expect(printedError, 'Error');
+    expect(printedStackTrace, stackTrace);
+
+    logger.t(null);
+    expect(printedLevel, Level.trace);
     expect(printedMessage, null);
     expect(printedError, null);
     expect(printedStackTrace, null);
@@ -223,6 +245,22 @@ void main() {
     expect(printedStackTrace, null);
   });
 
+  test('Roggle.f', () {
+    final logger = Roggle(filter: _AlwaysFilter(), printer: callbackPrinter);
+    final stackTrace = StackTrace.current;
+    logger.f('Test', 'Error', stackTrace);
+    expect(printedLevel, Level.fatal);
+    expect(printedMessage, 'Test');
+    expect(printedError, 'Error');
+    expect(printedStackTrace, stackTrace);
+
+    logger.f(null);
+    expect(printedLevel, Level.fatal);
+    expect(printedMessage, null);
+    expect(printedError, null);
+    expect(printedStackTrace, null);
+  });
+
   test('setting log level above log level of message', () {
     printedMessage = null;
     final logger = Roggle(
@@ -248,7 +286,7 @@ void main() {
     logger.w('This is');
     expect(printedMessage, 'This is');
 
-    Roggle.level = Level.verbose;
+    Roggle.level = Level.trace;
   });
 
   test('get filter', () {

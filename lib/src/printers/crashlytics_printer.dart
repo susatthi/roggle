@@ -30,27 +30,19 @@ class CrashlyticsPrinter extends SinglePrettyPrinter {
     required this.errorLevel,
     required this.onError,
     this.onLog,
-    String? loggerName,
-    bool printCaller = true,
-    bool printFunctionName = true,
-    bool printLocation = true,
-    bool printEmojis = true,
-    bool printLabels = true,
-    Map<Level, String> levelEmojis = SinglePrettyPrinter.defaultLevelEmojis,
-    Map<Level, String> levelLabels = SinglePrettyPrinter.defaultLevelLabels,
+    super.loggerName,
+    super.printCaller,
+    super.printFunctionName,
+    super.printLocation,
+    super.printEmojis,
+    super.printLabels,
+    super.levelEmojis,
+    super.levelLabels,
   }) : super(
-          loggerName: loggerName,
           colors: false,
-          printCaller: printCaller,
-          printFunctionName: printFunctionName,
-          printLocation: printLocation,
-          printEmojis: printEmojis,
-          printLabels: printLabels,
           printTime: false,
           stackTraceMethodCount: null,
           stackTracePrefix: '',
-          levelEmojis: levelEmojis,
-          levelLabels: levelLabels,
         );
 
   /// The current logging level to send error.
@@ -78,7 +70,7 @@ class CrashlyticsPrinter extends SinglePrettyPrinter {
       Object error;
       if (event.error != null) {
         // If error is not null, it will be sent with priority.
-        error = event.error as Object;
+        error = event.error!;
       } else if (event.message is Exception) {
         error = event.message as Exception;
       } else if (event.message is Error) {

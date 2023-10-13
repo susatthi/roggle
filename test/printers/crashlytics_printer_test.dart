@@ -1,6 +1,10 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:roggle/roggle.dart';
 import 'package:stack_trace/stack_trace.dart';
 import 'package:test/test.dart';
+
+import '../test_utils/utils.dart';
 
 void main() {
   Level? printedErrorLevel;
@@ -36,7 +40,7 @@ void main() {
         onLog: onLog,
       );
 
-      final levels = Level.values.take(6);
+      final levels = getAvailableLogLevel();
       for (final level in levels) {
         final event = LogEvent(
           level,
@@ -47,16 +51,57 @@ void main() {
         expect(printedLogMessage, isNotNull);
         switch (level) {
           case Level.verbose:
+          case Level.trace:
           case Level.debug:
           case Level.info:
           case Level.warning:
           case Level.error:
           case Level.wtf:
+          case Level.fatal:
             expect(printedErrorLevel, isNull);
             expect(printedErrorException, isNull);
             expect(printedErrorStack, isNull);
             break;
+          case Level.all:
           case Level.nothing:
+          case Level.off:
+            // not reachable
+            break;
+        }
+      }
+    });
+    test('errorLevel is off', () {
+      final printer = CrashlyticsPrinter(
+        errorLevel: Level.off,
+        onError: onError,
+        onLog: onLog,
+      );
+
+      final levels = getAvailableLogLevel();
+      for (final level in levels) {
+        final event = LogEvent(
+          level,
+          '',
+        );
+        printer.log(event);
+        expect(printedLogLevel, level);
+        expect(printedLogMessage, isNotNull);
+        switch (level) {
+          case Level.verbose:
+          case Level.trace:
+          case Level.debug:
+          case Level.info:
+          case Level.warning:
+          case Level.error:
+          case Level.wtf:
+          case Level.fatal:
+            expect(printedErrorLevel, isNull);
+            expect(printedErrorException, isNull);
+            expect(printedErrorStack, isNull);
+            break;
+          case Level.all:
+          case Level.nothing:
+          case Level.off:
             // not reachable
             break;
         }
@@ -70,7 +115,7 @@ void main() {
         onLog: onLog,
       );
 
-      final levels = Level.values.take(6);
+      final levels = getAvailableLogLevel();
       for (final level in levels) {
         final event = LogEvent(
           level,
@@ -81,16 +126,62 @@ void main() {
         expect(printedLogMessage, isNotNull);
         switch (level) {
           case Level.verbose:
+          case Level.trace:
           case Level.debug:
           case Level.info:
           case Level.warning:
           case Level.error:
           case Level.wtf:
+          case Level.fatal:
             expect(printedErrorLevel, level);
             expect(printedErrorException, expectedMessage);
             expect(printedErrorStack, isNotNull);
             break;
+          case Level.all:
           case Level.nothing:
+          case Level.off:
+            // not reachable
+            break;
+        }
+      }
+    });
+    test('errorLevel is trace', () {
+      const expectedMessage = 'some message';
+      final printer = CrashlyticsPrinter(
+        errorLevel: Level.trace,
+        onError: onError,
+        onLog: onLog,
+      );
+
+      final levels = getAvailableLogLevel();
+      for (final level in levels) {
+        final event = LogEvent(
+          level,
+          expectedMessage,
+        );
+        printer.log(event);
+        expect(printedLogLevel, level);
+        expect(printedLogMessage, isNotNull);
+        switch (level) {
+          case Level.verbose:
+            expect(printedErrorLevel, isNull);
+            expect(printedErrorException, isNull);
+            expect(printedErrorStack, isNull);
+            break;
+          case Level.trace:
+          case Level.debug:
+          case Level.info:
+          case Level.warning:
+          case Level.error:
+          case Level.wtf:
+          case Level.fatal:
+            expect(printedErrorLevel, level);
+            expect(printedErrorException, expectedMessage);
+            expect(printedErrorStack, isNotNull);
+            break;
+          case Level.all:
+          case Level.nothing:
+          case Level.off:
             // not reachable
             break;
         }
@@ -104,7 +195,7 @@ void main() {
         onLog: onLog,
       );
 
-      final levels = Level.values.take(6);
+      final levels = getAvailableLogLevel();
       for (final level in levels) {
         final event = LogEvent(
           level,
@@ -115,6 +206,7 @@ void main() {
         expect(printedLogMessage, isNotNull);
         switch (level) {
           case Level.verbose:
+          case Level.trace:
             expect(printedErrorLevel, isNull);
             expect(printedErrorException, isNull);
             expect(printedErrorStack, isNull);
@@ -124,11 +216,14 @@ void main() {
           case Level.warning:
           case Level.error:
           case Level.wtf:
+          case Level.fatal:
             expect(printedErrorLevel, level);
             expect(printedErrorException, expectedMessage);
             expect(printedErrorStack, isNotNull);
             break;
+          case Level.all:
           case Level.nothing:
+          case Level.off:
             // not reachable
             break;
         }
@@ -142,7 +237,7 @@ void main() {
         onLog: onLog,
       );
 
-      final levels = Level.values.take(6);
+      final levels = getAvailableLogLevel();
       for (final level in levels) {
         final event = LogEvent(
           level,
@@ -153,6 +248,7 @@ void main() {
         expect(printedLogMessage, isNotNull);
         switch (level) {
           case Level.verbose:
+          case Level.trace:
           case Level.debug:
             expect(printedErrorLevel, isNull);
             expect(printedErrorException, isNull);
@@ -162,11 +258,14 @@ void main() {
           case Level.warning:
           case Level.error:
           case Level.wtf:
+          case Level.fatal:
             expect(printedErrorLevel, level);
             expect(printedErrorException, expectedMessage);
             expect(printedErrorStack, isNotNull);
             break;
+          case Level.all:
           case Level.nothing:
+          case Level.off:
             // not reachable
             break;
         }
@@ -180,7 +279,7 @@ void main() {
         onLog: onLog,
       );
 
-      final levels = Level.values.take(6);
+      final levels = getAvailableLogLevel();
       for (final level in levels) {
         final event = LogEvent(
           level,
@@ -191,6 +290,7 @@ void main() {
         expect(printedLogMessage, isNotNull);
         switch (level) {
           case Level.verbose:
+          case Level.trace:
           case Level.debug:
           case Level.info:
             expect(printedErrorLevel, isNull);
@@ -200,11 +300,14 @@ void main() {
           case Level.warning:
           case Level.error:
           case Level.wtf:
+          case Level.fatal:
             expect(printedErrorLevel, level);
             expect(printedErrorException, expectedMessage);
             expect(printedErrorStack, isNotNull);
             break;
+          case Level.all:
           case Level.nothing:
+          case Level.off:
             // not reachable
             break;
         }
@@ -218,7 +321,7 @@ void main() {
         onLog: onLog,
       );
 
-      final levels = Level.values.take(6);
+      final levels = getAvailableLogLevel();
       for (final level in levels) {
         final event = LogEvent(
           level,
@@ -229,6 +332,7 @@ void main() {
         expect(printedLogMessage, isNotNull);
         switch (level) {
           case Level.verbose:
+          case Level.trace:
           case Level.debug:
           case Level.info:
           case Level.warning:
@@ -238,11 +342,14 @@ void main() {
             break;
           case Level.error:
           case Level.wtf:
+          case Level.fatal:
             expect(printedErrorLevel, level);
             expect(printedErrorException, expectedMessage);
             expect(printedErrorStack, isNotNull);
             break;
+          case Level.all:
           case Level.nothing:
+          case Level.off:
             // not reachable
             break;
         }
@@ -256,7 +363,7 @@ void main() {
         onLog: onLog,
       );
 
-      final levels = Level.values.take(6);
+      final levels = getAvailableLogLevel();
       for (final level in levels) {
         final event = LogEvent(
           level,
@@ -267,6 +374,7 @@ void main() {
         expect(printedLogMessage, isNotNull);
         switch (level) {
           case Level.verbose:
+          case Level.trace:
           case Level.debug:
           case Level.info:
           case Level.warning:
@@ -276,11 +384,56 @@ void main() {
             expect(printedErrorStack, isNull);
             break;
           case Level.wtf:
+          case Level.fatal:
             expect(printedErrorLevel, level);
             expect(printedErrorException, expectedMessage);
             expect(printedErrorStack, isNotNull);
             break;
+          case Level.all:
           case Level.nothing:
+          case Level.off:
+            // not reachable
+            break;
+        }
+      }
+    });
+    test('errorLevel is fatal', () {
+      const expectedMessage = 'some message';
+      final printer = CrashlyticsPrinter(
+        errorLevel: Level.fatal,
+        onError: onError,
+        onLog: onLog,
+      );
+
+      final levels = getAvailableLogLevel();
+      for (final level in levels) {
+        final event = LogEvent(
+          level,
+          expectedMessage,
+        );
+        printer.log(event);
+        expect(printedLogLevel, level);
+        expect(printedLogMessage, isNotNull);
+        switch (level) {
+          case Level.verbose:
+          case Level.trace:
+          case Level.debug:
+          case Level.info:
+          case Level.warning:
+          case Level.error:
+          case Level.wtf:
+            expect(printedErrorLevel, isNull);
+            expect(printedErrorException, isNull);
+            expect(printedErrorStack, isNull);
+            break;
+          case Level.fatal:
+            expect(printedErrorLevel, level);
+            expect(printedErrorException, expectedMessage);
+            expect(printedErrorStack, isNotNull);
+            break;
+          case Level.all:
+          case Level.nothing:
+          case Level.off:
             // not reachable
             break;
         }
@@ -348,7 +501,7 @@ void main() {
       final event = LogEvent(
         Level.error,
         'some message',
-        expectedError,
+        error: expectedError,
       );
       printer.log(event);
       expect(printedErrorException, expectedError);
@@ -362,7 +515,7 @@ void main() {
       final event = LogEvent(
         Level.error,
         'some message',
-        expectedError,
+        error: expectedError,
       );
       printer.log(event);
       expect(printedErrorException, expectedError);
@@ -376,7 +529,7 @@ void main() {
       final event = LogEvent(
         Level.error,
         'some message',
-        expectedError,
+        error: expectedError,
       );
       printer.log(event);
       expect(printedErrorException, expectedError);
@@ -399,8 +552,8 @@ void main() {
       final event = LogEvent(
         Level.error,
         'some message',
-        expectedError,
-        stackTrace,
+        error: expectedError,
+        stackTrace: stackTrace,
       );
       printer.log(event);
       expect(printedErrorException, expectedError);
@@ -424,7 +577,7 @@ void main() {
       final event = LogEvent(
         Level.error,
         'some message',
-        expectedError,
+        error: expectedError,
       );
       printer.log(event);
       expect(printedErrorException, expectedError);

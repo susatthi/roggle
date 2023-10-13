@@ -41,7 +41,7 @@ class Roggle {
   /// The current logging level of the app.
   ///
   /// All logs with levels below this level will be omitted.
-  static Level level = Level.verbose;
+  static Level level = Level.trace;
 
   final LogFilter _filter;
   LogFilter get filter => _filter;
@@ -56,8 +56,17 @@ class Roggle {
   bool get active => _active;
 
   /// Log a message at level [Level.verbose].
+  @Deprecated(
+    '[Level.verbose] is being deprecated in favor of [Level.trace], '
+    'use [t] instead.',
+  )
   void v(Object? message, [Object? error, StackTrace? stackTrace]) {
     log(Level.verbose, message, error, stackTrace);
+  }
+
+  /// Log a message at level [Level.trace].
+  void t(Object? message, [Object? error, StackTrace? stackTrace]) {
+    log(Level.trace, message, error, stackTrace);
   }
 
   /// Log a message at level [Level.debug].
@@ -81,8 +90,17 @@ class Roggle {
   }
 
   /// Log a message at level [Level.wtf].
+  @Deprecated(
+    '[Level.wtf] is being deprecated in favor of [Level.fatal], '
+    'use [f] instead.',
+  )
   void wtf(Object? message, [Object? error, StackTrace? stackTrace]) {
     log(Level.wtf, message, error, stackTrace);
+  }
+
+  /// Log a message at level [Level.fatal].
+  void f(Object? message, [Object? error, StackTrace? stackTrace]) {
+    log(Level.fatal, message, error, stackTrace);
   }
 
   /// Log a message with [level].
@@ -96,10 +114,14 @@ class Roggle {
       throw ArgumentError('Logger has already been closed.');
     } else if (error != null && error is StackTrace) {
       throw ArgumentError('Error parameter cannot take a StackTrace!');
-    } else if (level == Level.nothing) {
+    } else if (level == Level.all) {
+      throw ArgumentError('Log events cannot have Level.all');
+      // ignore: deprecated_member_use
+    } else if (level == Level.off || level == Level.nothing) {
       throw ArgumentError('Log events cannot have Level.nothing');
     }
-    final logEvent = LogEvent(level, message, error, stackTrace);
+    final logEvent =
+        LogEvent(level, message, error: error, stackTrace: stackTrace);
     if (_filter.shouldLog(logEvent)) {
       final output = _printer.log(logEvent);
 

@@ -63,7 +63,7 @@ void main() {
 }
 
 void demo() {
-  logger.v('Hello roggle!');
+  logger.t('Hello roggle!');
   logger.d(1000);
   logger.i(true);
   logger.i([1, 2, 3]);
@@ -76,6 +76,6 @@ void demo() {
   try {
     throw Exception('some exception');
   } on Exception catch (e, s) {
-    logger.wtf('wtf...', e, s);
+    logger.f('fatal...', e, s);
   }
 }
