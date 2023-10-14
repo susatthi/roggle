@@ -314,7 +314,7 @@ void main() {
       final printer = SinglePrettyPrinter(
         levelColors: {
           ...SinglePrettyPrinter.defaultLevelColors,
-          Level.info: AnsiColor.none(),
+          Level.info: const AnsiColor.none(),
         },
       );
       _wrapPropertyTest(printer, AnsiColor.ansiEsc, false);
@@ -440,7 +440,7 @@ void main() {
       final event = LogEvent(
         Level.info,
         expectedMessage,
-        expectedError,
+        error: expectedError,
       );
       final actualLogString = _readMessage(printer.log(event));
       expect(actualLogString.contains(expectedMessage), true);
@@ -460,8 +460,7 @@ void main() {
       final event = LogEvent(
         Level.info,
         expectedMessage,
-        null,
-        stackTrace,
+        stackTrace: stackTrace,
       );
       final actualLogString = _readMessage(printer.log(event));
       expect(actualLogString.contains(expectedMessage), true);
@@ -487,8 +486,8 @@ void main() {
       final event = LogEvent(
         Level.info,
         expectedMessage,
-        expectedError,
-        stackTrace,
+        error: expectedError,
+        stackTrace: stackTrace,
       );
       final actualLogString = _readMessage(printer.log(event));
       expect(actualLogString.contains(expectedMessage), true);
