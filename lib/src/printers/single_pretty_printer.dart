@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:stack_trace/stack_trace.dart';
@@ -88,37 +86,31 @@ class SinglePrettyPrinter extends LogPrinter {
 
   /// Color default for each log level.
   static final defaultLevelColors = {
-    Level.verbose: AnsiColor.fg(AnsiColor.grey(0.5)),
     Level.trace: AnsiColor.fg(AnsiColor.grey(0.5)),
     Level.debug: const AnsiColor.none(),
     Level.info: const AnsiColor.fg(12),
     Level.warning: const AnsiColor.fg(208),
     Level.error: const AnsiColor.fg(196),
-    Level.wtf: const AnsiColor.fg(199),
     Level.fatal: const AnsiColor.fg(199),
   };
 
   /// Emoji default for each log level.
   static const defaultLevelEmojis = {
-    Level.verbose: '🐱',
     Level.trace: '🐱',
     Level.debug: '🐛',
     Level.info: '👀',
     Level.warning: '❗',
     Level.error: '⛔',
-    Level.wtf: '🔥',
     Level.fatal: '🔥',
   };
 
   /// String default for each log level.
   static const defaultLevelLabels = {
-    Level.verbose: '[VERBOSE]',
     Level.trace: '[TRACE]  ',
     Level.debug: '[DEBUG]  ',
     Level.info: '[INFO]   ',
     Level.warning: '[WARNING]',
     Level.error: '[ERROR]  ',
-    Level.wtf: '[WTF]    ',
     Level.fatal: '[FATAL]  ',
   };
 
@@ -135,6 +127,7 @@ class SinglePrettyPrinter extends LogPrinter {
     return _formatMessage(
       level: event.level,
       message: stringifyMessage(event.message),
+      time: event.time,
       error: event.error?.toString(),
       stackTrace: stackTraceLines,
     );
@@ -250,11 +243,12 @@ class SinglePrettyPrinter extends LogPrinter {
   List<String> _formatMessage({
     required Level level,
     required String message,
+    required DateTime time,
     String? error,
     List<String>? stackTrace,
   }) {
     final color = getLevelColor(level);
-    final fixed = formatFixed(level: level);
+    final fixed = formatFixed(level: level, time: time);
     final logs = <String>[
       color('$fixed$message'),
     ];
@@ -274,6 +268,7 @@ class SinglePrettyPrinter extends LogPrinter {
   @protected
   String formatFixed({
     required Level level,
+    required DateTime time,
   }) {
     final buffer = <String>[];
 
@@ -287,7 +282,7 @@ class SinglePrettyPrinter extends LogPrinter {
       buffer.add(levelLabels[level]!);
     }
     if (printTime) {
-      buffer.add(timeFormatter(DateTime.now()));
+      buffer.add(timeFormatter(time));
     }
     if (printCaller) {
       final caller = getCaller();

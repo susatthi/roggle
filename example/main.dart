@@ -76,6 +76,6 @@ void demo() {
   try {
     throw Exception('some exception');
   } on Exception catch (e, s) {
-    logger.f('fatal...', e, s);
+    logger.f('fatal...', error: e, stackTrace: s);
   }
 }

@@ -62,6 +62,7 @@ class CrashlyticsPrinter extends SinglePrettyPrinter {
       final message = _formatMessage(
         level: event.level,
         message: stringifyMessage(event.message),
+        time: event.time,
       );
       onLog!.call(CrashlyticsLogEvent(event.level, message));
     }
@@ -101,9 +102,10 @@ class CrashlyticsPrinter extends SinglePrettyPrinter {
   String _formatMessage({
     required Level level,
     required String message,
+    required DateTime time,
   }) {
     final color = getLevelColor(level);
-    final fixed = formatFixed(level: level);
+    final fixed = formatFixed(level: level, time: time);
     return color('$fixed$message');
   }
 }

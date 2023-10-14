@@ -23,7 +23,7 @@ Instead of a string message, you can also pass other objects like `List`, `Map`,
 
 ## Output
 
-![androidstudio](https://user-images.githubusercontent.com/13707135/195221622-341dbf2d-5708-441b-a804-5eae969855d6.png)
+![Android Studio](https://user-images.githubusercontent.com/13707135/195221622-341dbf2d-5708-441b-a804-5eae969855d6.png)
 
 # Documentation
 
