@@ -1,3 +1,7 @@
+## 0.4.0+1
+
+- Fixed warning.
+
 ## 0.4.0
 
 - Bumped upper SDK constraint to `<4.0.0`.
