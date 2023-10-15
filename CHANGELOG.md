@@ -1,3 +1,7 @@
+## 0.4.3
+
+- Added logo image.
+
 ## 0.4.1
 
 - Fixed warning.
