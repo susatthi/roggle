@@ -24,6 +24,7 @@ jobs:
         with:
           accessToken: ${{ secrets.PUB_CREDENTIALS_ACCESS_TOKEN }}
           refreshToken: ${{ secrets.PUB_CREDENTIALS_REFRESH_TOKEN }}
+          force: true
       - name: Create release
         uses: actions/create-release@v1
         env:
