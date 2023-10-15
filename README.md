@@ -1,4 +1,4 @@
-![logo](./logo.png)
+![logo](https://github.com/susatthi/roggle/blob/main/logo.png?raw=true)
 
 # Roggle
 
