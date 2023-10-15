@@ -8,18 +8,18 @@ on:
 jobs:
   publish:
     permissions:
-      id-token: write
+      # id-token: write
+      contents: write
+      actions: write
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@8a4b97ea2017cc079571daec46542f76189836b1
-      - name: Install dependencies
-        run: dart pub get
-      # - name: Publish - dry run
-      #   run: dart pub publish --dry-run
-      - name: Publish to pub.dev
-        run: dart pub publish -f
+      # - uses: dart-lang/setup-dart@8a4b97ea2017cc079571daec46542f76189836b1
+      # - name: Install dependencies
+      #   run: dart pub get
+      # - name: Publish to pub.dev
+      #   run: dart pub publish -f
       - name: Create release
         uses: actions/create-release@v1
         env:
