@@ -19,21 +19,11 @@ jobs:
         uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
-      - name: Setup credentials
-        run: |
-          mkdir -p ~/.pub-cache
-          cat <<EOF > ~/.pub-cache/credentials.json
-          {
-            "accessToken":"${{ secrets.PUB_CREDENTIALS_ACCESS_TOKEN }}",
-            "refreshToken":"${{ secrets.PUB_CREDENTIALS_REFRESH_TOKEN }}",
-            "idToken":"${{ secrets.PUB_CREDENTIALS_ID_TOKEN }}",
-            "tokenEndpoint":"https://accounts.google.com/o/oauth2/token",
-            "scopes": ["openid","https://www.googleapis.com/auth/userinfo.email"],
-            "expiration": 1651458128502
-          }
-          EOF
       - name: Publish to pub.dev
-        run: dart pub publish -f
+        uses: k-paxian/dart-package-publisher@master
+        with:
+          accessToken: ${{ secrets.PUB_CREDENTIALS_ACCESS_TOKEN }}
+          refreshToken: ${{ secrets.PUB_CREDENTIALS_REFRESH_TOKEN }}
       - name: Create release
         uses: actions/create-release@v1
         env:
