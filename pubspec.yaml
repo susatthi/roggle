@@ -25,3 +25,7 @@ platforms:
   macos:
   web:
   windows:
+
+screenshots:
+  - description: 'Roggle logo.'
+    path: 'logo.png'

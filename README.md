@@ -1,3 +1,5 @@
+![logo](./logo.png)
+
 # Roggle
 
 <a href="https://github.com/susatthi/roggle/actions/workflows/test.yaml"><img src="https://github.com/susatthi/roggle/actions/workflows/test.yaml/badge.svg" alt="Test"></a>
