@@ -1,30 +1,25 @@
-name: Publish
+name: Publish to pub.dev
 
 on:
   push:
     tags:
-      - 'v*'
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
   publish:
-    name: Publish
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
-      - name: Download dart sdk
-        uses: dart-lang/setup-dart@v1
-        with:
-          sdk: stable
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@8a4b97ea2017cc079571daec46542f76189836b1
+      - name: Install dependencies
+        run: dart pub get
+      - name: Publish - dry run
+        run: dart pub publish --dry-run
       - name: Publish to pub.dev
-        uses: k-paxian/dart-package-publisher@master
-        with:
-          accessToken: ${{ secrets.PUB_CREDENTIALS_ACCESS_TOKEN }}
-          refreshToken: ${{ secrets.PUB_CREDENTIALS_REFRESH_TOKEN }}
-          force: true
+        run: dart pub publish -f
       - name: Create release
         uses: actions/create-release@v1
         env:
